@@ -21,3 +21,38 @@ html {
   background-color: rgba(251, 191, 36, 0.3); /* Amber-400 with opacity */
   color: inherit;
 }
+
+@keyframes border-rotate {
+  0% { --border-angle: 0deg; }
+  100% { --border-angle: 360deg; }
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+.animate-border {
+  position: relative;
+  border: 1px solid transparent; /* Fallback */
+}
+
+.animate-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--border-angle), transparent 25%, #6366f1 50%, #a855f7 75%, transparent 100%);
+  -webkit-mask: 
+     linear-gradient(#fff 0 0) content-box, 
+     linear-gradient(#fff 0 0);
+  mask: 
+     linear-gradient(#fff 0 0) content-box, 
+     linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: border-rotate 3s linear infinite;
+  pointer-events: none;
+}

@@ -2,14 +2,25 @@ import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiArrowRight, FiArrowDown, FiAward, FiBriefcase, FiBookOpen } from 'react-icons/fi';
-
 import Logo from '../assets/images.png';
 import Card from '../components/common/Card';
 import Stack from '../components/specific/Stack';
 import { projects } from '../data/projects';
 import Noise from "../components/common/Noise";
+import { useScramble } from '../hooks/useScramble';
+import Magnetic from '../components/common/Magnetic';
+import Toast from '../components/common/Toast';
 
 const Home = () => {
+  const { displayText, scramble } = useScramble("Chaturvedi");
+  const [showToast, setShowToast] = useState(false);
+
+  const handleCopyEmail = (e) => {
+    e.preventDefault();
+    navigator.clipboard.writeText("chaturvediinitin@gmail.com");
+    setShowToast(true);
+  };
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -38,7 +49,7 @@ const Home = () => {
       {/* Subtle Grid Background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none z-0"></div>
 
-      <div className="flex flex-col min-h-screen gap-20 pb-20 relative z-10"> {/* 10. Increased Global Spacing */}
+      <div className="flex flex-col min-h-screen gap-20 pb-20 relative z-10">
           
           {/* Hero Section */}
           <motion.div
@@ -51,7 +62,7 @@ const Home = () => {
             <div className="flex flex-col text-center lg:text-left gap-6 max-w-3xl">
               
               {/* Open to Work Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 w-fit mx-auto lg:mx-0">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/5 w-fit mx-auto lg:mx-0 animate-border relative">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -61,7 +72,12 @@ const Home = () => {
 
               <h1 className="text-6xl sm:text-7xl lg:text-8xl font-extrabold font-display text-zinc-900 dark:text-zinc-100 leading-[1.1] tracking-tight"> {/* 3. Typography Scaling */}
                 Nitin <br className="hidden lg:block"/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-500 to-zinc-900 dark:from-zinc-400 dark:to-zinc-100">Chaturvedi</span>
+                <span 
+                    onMouseEnter={scramble} 
+                    className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-500 to-zinc-900 dark:from-zinc-400 dark:to-zinc-100 cursor-default"
+                >
+                    {displayText}
+                </span>
               </h1>
               <p className="text-xl sm:text-2xl text-zinc-500 dark:text-zinc-400 font-medium tracking-wide max-w-xl mx-auto lg:mx-0">
                 Full Stack Web Developer & Product Builder
@@ -75,10 +91,24 @@ const Home = () => {
 
             {/* 2. Profile Image Styling */}
             <motion.div 
-                whileHover={{ scale: 1.05, rotate: -2 }}
-                transition={{ type: "spring", stiffness: 300 }}
                 className="relative group shrink-0"
             >
+                {/* Reveal Shutters */}
+                <motion.div
+                    initial={{ scaleX: 1 }}
+                    animate={{ scaleX: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8, ease: "easeInOut" }}
+                    style={{ originX: 0 }}
+                    className="absolute inset-0 bg-zinc-900 dark:bg-zinc-100 z-20 rounded-[2rem]"
+                />
+                <motion.div
+                    initial={{ scaleX: 1 }}
+                    animate={{ scaleX: 0 }}
+                    transition={{ duration: 0.5, delay: 0.9, ease: "easeInOut" }}
+                    style={{ originX: 0 }}
+                    className="absolute inset-0 bg-indigo-500 z-10 rounded-[2rem]"
+                />
+
                 <div className="absolute inset-0 bg-indigo-500 rounded-[2rem] rotate-6 opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-500"></div>
                 <img
                     src={Logo}
@@ -138,7 +168,7 @@ const Home = () => {
                     variants={cardVariants} 
                     className="break-inside-avoid" // Prevent card splitting
                 >
-                  <Card project={project} />
+                  <Card project={project} index={idx} />
                 </motion.div>
               ))}
             </motion.div>
@@ -214,12 +244,29 @@ const Home = () => {
 
           {/* 11. Footer/Copyright */}
           <footer className="mt-20 pt-10 border-t border-zinc-200 dark:border-zinc-800 text-center text-zinc-400 text-sm flex flex-col items-center gap-4">
+             <div className="flex gap-6 mb-4">
+                <Magnetic>
+                    <a href="https://github.com/nitinvedi" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">GitHub</a>
+                </Magnetic>
+                <Magnetic>
+                    <a href="https://www.linkedin.com/in/nitinvedi" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">LinkedIn</a>
+                </Magnetic>
+                <Magnetic>
+                    <button onClick={handleCopyEmail} className="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors cursor-pointer">
+                        Copy Email
+                    </button>
+                </Magnetic>
+             </div>
              <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700/50">
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
                 <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Built with React & Tailwind</span>
              </div>
              <p>© {new Date().getFullYear()} Nitin Chaturvedi. All rights reserved.</p>
           </footer>
+          
+          <AnimatePresence>
+            {showToast && <Toast message="Email copied to clipboard!" onClose={() => setShowToast(false)} />}
+          </AnimatePresence>
       </div>
     </motion.div>
   );

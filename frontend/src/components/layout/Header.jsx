@@ -63,7 +63,12 @@ const Header = () => {
     ];
 
     return (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+        <motion.div 
+            initial={{ y: 100, x: "-50%", opacity: 0 }}
+            animate={{ y: 0, x: "-50%", opacity: 1 }}
+            transition={{ delay: 1, duration: 0.8, type: "spring", stiffness: 100 }}
+            className="fixed bottom-6 left-1/2 z-50"
+        >
             <motion.div
                 onMouseMove={(e) => mouseX.set(e.pageX)}
                 onMouseLeave={() => mouseX.set(Infinity)}
@@ -133,7 +138,7 @@ const Header = () => {
                     <SiLeetcode className="text-xl" />
                 </DockIcon>
             </motion.div>
-        </div>
+        </motion.div>
     );
 };
 
@@ -172,7 +177,7 @@ function DockIcon({ mouseX, children, to, href, onClick, isActive, label }) {
         <motion.div 
             ref={ref}
             style={{ width }} 
-            className="aspect-square rounded-full flex items-center justify-center relative"
+            className="aspect-square rounded-full flex items-center justify-center relative flex-col"
         >
             {to ? (
                 <Link to={to} className="w-full h-full flex items-center justify-center">
@@ -184,6 +189,16 @@ function DockIcon({ mouseX, children, to, href, onClick, isActive, label }) {
                 </a>
             ) : (
                 InnerContent
+            )}
+
+            {isActive && (
+                <motion.div
+                    layoutId="activeTab"
+                    className="absolute -bottom-2 w-1 h-1 rounded-full bg-indigo-500 shadow-[0_0_8px_2px_rgba(99,102,241,0.5)]"
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0 }}
+                />
             )}
 
             <AnimatePresence>
