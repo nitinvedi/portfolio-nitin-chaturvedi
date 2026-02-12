@@ -6,6 +6,7 @@ import { SiLeetcode } from "react-icons/si";
 import { FiHome, FiBriefcase, FiCode } from "react-icons/fi";
 import { CgFileDocument } from "react-icons/cg";
 import { useTheme } from "../../context/ThemeContext";
+import Magnetic from '../common/Magnetic';
 
 const Header = () => {
     let mouseX = useMotionValue(Infinity);
@@ -153,16 +154,18 @@ function DockIcon({ mouseX, children, to, href, onClick, isActive, label }) {
         : "bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50";
 
     const InnerContent = (
-        <motion.button 
-            className={`w-full h-full rounded-full flex items-center justify-center shadow-sm transition-colors relative ${activeClass}`}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onClick}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-        >
-            {children}
-        </motion.button>
+        <Magnetic>
+            <motion.button 
+                className={`w-full h-full rounded-full flex items-center justify-center shadow-sm transition-colors relative ${activeClass}`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onClick}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
+                {children}
+            </motion.button>
+        </Magnetic>
     );
 
     return (
