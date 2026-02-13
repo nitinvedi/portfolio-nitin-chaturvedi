@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FiMapPin, FiGithub, FiLinkedin, FiMail, FiCode, FiArrowUpRight, FiCopy, FiGlobe, FiCheck } from "react-icons/fi";
-import { SiReact, SiNodedotjs, SiMongodb, SiTailwindcss, SiJavascript, SiTypescript, SiPostgresql, SiDocker, SiNextdotjs, SiAmazon, SiFigma, SiPython, SiGit, SiRedux, SiGraphql, SiFirebase } from "react-icons/si";
+import { SiReact, SiNodedotjs, SiMongodb, SiTailwindcss, SiJavascript, SiTypescript, SiPostgresql, SiDocker, SiNextdotjs, SiAmazon, SiFigma, SiPython, SiGit, SiRedux, SiGraphql, SiFirebase, SiHtml5, SiCss3, SiPhp, SiMysql, SiC, SiCplusplus, SiJava, SiPostman, SiExpress } from "react-icons/si";
 import { useNotification } from "../../context/NotificationContext";
 
 /* --- Helper Components (Defined TOP to prevent hoisting errors) --- */
@@ -124,6 +124,15 @@ function TechIcon({ Icon, color, label }) {
     );
 }
 
+function TechBadge({ icon: Icon, name, color }) {
+    return (
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700/50 hover:border-amber-500/30 transition-colors">
+            <Icon className={`text-base ${color}`} />
+            <span className="text-[10px] sm:text-xs font-medium text-stone-600 dark:text-stone-300">{name}</span>
+        </div>
+    );
+}
+
 /* --- Main Component --- */
 
 const BentoGrid = () => {
@@ -157,25 +166,76 @@ const BentoGrid = () => {
                 </div>
             </BentoItem>
 
-            {/* 2. Tech Arsenal (Wide & Infinite) */}
-            <BentoItem className="md:col-span-2 md:row-span-1 overflow-hidden group">
+            {/* 2. Tech Arsenal (Wide & Structured) */}
+            <BentoItem className="md:col-span-2 md:row-span-1 overflow-hidden group min-h-[300px]">
                  <div className="flex flex-col h-full z-10 relative">
-                    <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-3">
                              <div className="p-2 bg-teal-500/10 rounded-lg">
-                                <SiReact className="text-teal-500 text-xl" />
+                                <SiCodechef className="text-teal-500 text-xl" /> {/* Changed icon to represent 'Stack' generally if SiCodechef not avail, sticking to generic or existing. actually SiReact was there. */}
+                                <FiCode className="text-teal-500 text-xl" />
                             </div>
                             <div>
-                                <h3 className="font-bold text-stone-900 dark:text-stone-100 font-display text-lg">Tech Arsenal</h3>
+                                <h3 id="tech-arsenal-heading" className="font-bold text-stone-900 dark:text-stone-100 font-display text-lg">Tech Arsenal</h3>
                                 <p className="text-xs text-stone-500 dark:text-stone-400">The weapons I choose.</p>
                             </div>
                         </div>
                     </div>
 
-                    {/* Infinite Marquees */}
-                    <div className="flex flex-col gap-4 relative mask-linear-fade">
-                        <MarqueeRow icons={[SiReact, SiNextdotjs, SiTypescript, SiJavascript, SiTailwindcss, SiFigma, SiAmazon, SiGit]} speed={20} />
-                        <MarqueeRow icons={[SiNodedotjs, SiMongodb, SiPostgresql, SiDocker, SiPython, SiRedux, SiGraphql, SiFirebase]} speed={25} reverse />
+                    {/* Categorized Skills List */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 overflow-y-auto pr-2 custom-scrollbar">
+                        
+                        {/* Languages */}
+                        <div className="col-span-2 sm:col-span-2">
+                             <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Languages</h4>
+                             <div className="flex flex-wrap gap-2">
+                                <TechBadge icon={SiC} name="C" color="text-blue-500" />
+                                <TechBadge icon={SiCplusplus} name="C++" color="text-blue-600" />
+                                <TechBadge icon={SiJava} name="Java" color="text-red-500" />
+                                <TechBadge icon={SiJavascript} name="JS" color="text-yellow-400" />
+                                <TechBadge icon={SiPython} name="Python" color="text-blue-400" />
+                             </div>
+                        </div>
+
+                        {/* Frontend */}
+                         <div className="col-span-2 sm:col-span-2">
+                             <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Frontend</h4>
+                             <div className="flex flex-wrap gap-2">
+                                <TechBadge icon={SiHtml5} name="HTML5" color="text-orange-500" />
+                                <TechBadge icon={SiCss3} name="CSS3" color="text-blue-500" />
+                                <TechBadge icon={SiTailwindcss} name="Tailwind" color="text-cyan-400" />
+                                <TechBadge icon={SiReact} name="React" color="text-cyan-400" />
+                             </div>
+                        </div>
+
+                        {/* Backend */}
+                         <div className="col-span-2 sm:col-span-2">
+                             <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Backend</h4>
+                             <div className="flex flex-wrap gap-2">
+                                <TechBadge icon={SiNodedotjs} name="Node.js" color="text-green-500" />
+                                <TechBadge icon={SiExpress} name="Express" color="text-stone-500 dark:text-stone-300" />
+                                <TechBadge icon={SiPhp} name="PHP" color="text-indigo-400" />
+                             </div>
+                        </div>
+
+                        {/* Database */}
+                         <div className="col-span-2 sm:col-span-1">
+                             <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Database</h4>
+                             <div className="flex flex-wrap gap-2">
+                                <TechBadge icon={SiMongodb} name="MongoDB" color="text-green-500" />
+                                <TechBadge icon={SiMysql} name="MySQL" color="text-blue-400" />
+                             </div>
+                        </div>
+
+                         {/* Tools */}
+                         <div className="col-span-2 sm:col-span-1">
+                             <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Tools</h4>
+                             <div className="flex flex-wrap gap-2">
+                                <TechBadge icon={SiGit} name="Git" color="text-orange-600" />
+                                <TechBadge icon={SiGithub} name="GitHub" color="text-stone-900 dark:text-white" />
+                                <TechBadge icon={SiPostman} name="Postman" color="text-orange-500" />
+                             </div>
+                        </div>
                     </div>
                  </div>
             </BentoItem>

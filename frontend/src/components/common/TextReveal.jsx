@@ -8,7 +8,21 @@ const TextReveal = ({ children, className = "" }) => {
     offset: ["start 0.8", "start 0.25"],
   });
 
-  const words = children.split(" ");
+  let words = [];
+  if (typeof children === "string") {
+    words = children.split(" ");
+  } else if (Array.isArray(children)) {
+    children.forEach((child) => {
+      if (typeof child === "string") {
+        words.push(...child.trim().split(/\s+/));
+      } else {
+        words.push(child);
+      }
+    });
+  } else {
+    // Fallback for single element child
+    words = [children];
+  }
 
   return (
     <div ref={targetRef} className={`relative z-0 h-[200vh] ${className}`}>
