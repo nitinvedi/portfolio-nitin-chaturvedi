@@ -8,27 +8,27 @@ import { useNotification } from "../../context/NotificationContext";
 const insights = [
     { 
         id: "home", 
-        text: "Building digital excellence, one pixel at a time.", 
+        text: "Architecting scalable digital ecosystems.", 
         icon: FiZap 
     },
     { 
         id: "about", 
-        text: "Bridging logic & intuitive design.", 
+        text: "Merging complex backend logic with seamless UI/UX.", 
         icon: FiUser 
     },
     { 
         id: "projects", 
-        text: "Built for scale & performance.", 
+        text: "Production-ready systems serving real-world users.", 
         icon: FiCode 
     },
     { 
         id: "experience", 
-        text: "Delivering impact & revenue.", 
+        text: "Engineering solutions that drive business growth.", 
         icon: FiBriefcase 
     },
     { 
         id: "contact", 
-        text: "Ready to build something extraordinary?", 
+        text: "Let's engineer the future of your product.", 
         icon: FiMail 
     },
 ];

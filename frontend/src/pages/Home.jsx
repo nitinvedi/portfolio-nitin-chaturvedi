@@ -136,7 +136,7 @@ const Home = () => {
 
 
           {/* Projects Section - Interactive Gallery */}
-          <div id="projects-gallery" className="relative z-10 w-full mb-20">
+          <div id="projects" className="relative z-10 w-full mb-20">
                <ProjectGallery />
           </div>
 

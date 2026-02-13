@@ -1,3 +1,7 @@
+import rammobiles from '../assets/rammobiles.png';
+import financial from '../assets/financial.png';
+import book from '../assets/book.png';
+
 export const projects = [
   {
     title: 'Ram Mobiles',
@@ -5,7 +9,7 @@ export const projects = [
     githubUrl: '', // Add if available, otherwise leave empty
     description: 'A full-stack e-commerce platform managing product catalog, order lifecycles, and inventory with secure authentication.',
     technologies: ["React", "Node.js", "MongoDB", "Express", "Tailwind"],
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&q=80&w=800"
+    image: rammobiles
   },
   {
     title: 'Zypher',
@@ -21,7 +25,7 @@ export const projects = [
     githubUrl: 'https://github.com/nitinvedi/Financial-Fraud-Detection-System',
     description: 'End-to-end ML pipeline and Streamlit dashboard to detect fraudulent financial transactions using historical banking data.',
     technologies: ["Python", "Scikit-learn", "Streamlit", "ML"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800"
+    image: financial
   },
   {
     title: 'Library Management System',
@@ -29,6 +33,6 @@ export const projects = [
     githubUrl: 'https://github.com/nitinvedi/CodeStore8-CipherSchool',
     description: 'Full-stack library system with JWT authentication, role-based permissions, and efficient book tracking.',
     technologies: ["MERN Stack", "Redux", "JWT"],
-    image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&q=80&w=800"
+    image: book
   },
 ];

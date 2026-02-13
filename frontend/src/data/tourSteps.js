@@ -2,30 +2,31 @@
 export const tourSteps = [
   {
     target: "#home-badge",
-    content: "I'm ready to join your team immediately.",
-    type: "box", 
+    content: "Ready to contribute from Day 1.",
+    type: "circle", 
     color: "#f59e0b",
-    position: "right" // Moved back to right
+    position: "right",
+    padding: 8
   },
   {
     target: "#hero-name",
-    content: "I'm a full-stack developer who builds products, not just websites.",
-    type: "underline",
+    content: "I build robust, scalable full-stack applications that solve real business problems.",
+    type: "highlight",
     color: "#fca5a5", 
     multiline: true,
     position: "bottom-right"
   },
   {
     target: "#about-highlight-1",
-    content: "My code is clean, scalable, and built for growth.",
-    type: "circle", 
+    content: "Writing clean, maintainable code is my standard.",
+    type: "underline", 
     color: "#14b8a6",
     position: "top-right",
-    padding: 8
+    padding: 0
   },
   {
     target: "#about-highlight-2", 
-    content: "Engineered for speed.",
+    content: "Optimized for performance and user experience.",
     type: "underline",
     color: "#14b8a6",
     position: "bottom-right",
@@ -33,22 +34,24 @@ export const tourSteps = [
   },
   {
     target: "#tech-arsenal-heading",
-    content: "Core Stack: MERN (MongoDB, Express, React, Node.js).",
-    type: "box",
+    content: "Proficient across the full stack: React, Node.js, Express, and MongoDB.",
+    type: "bracket",
+    brackets: ["left", "right"],
     color: "#0ea5e9", // sky-500
-    position: "top-left",
-    padding: 10
+    position: "top-center",
+    padding: 5
   },
   {
-    target: "#projects-gallery",
-    content: "I deliver real-world solutions that generate revenue.",
-    type: "box", 
+    target: "#project-gallery-heading",
+    content: "Check out my portfolio of deployed projects solving complex challenges.",
+    type: "underline", 
     color: "#6366f1",
-    position: "top-left"
+    position: "bottom-center",
+    padding: 0
   },
   {
     target: "#experience-ram-mobiles", // Specific usage
-    content: "I built complex inventory logic here that saved time and boosted revenue by ₹6k.",
+    content: "Proven track record: Delivered features that directly increased revenue.",
     type: "bracket",
     brackets: ["left"],
     color: "#ec4899",
@@ -56,14 +59,15 @@ export const tourSteps = [
   },
   {
     target: "#achievement-dsa", // Specific usage
-    content: "Problem solver at heart: 500+ DSA problems solved.",
-    type: "box",
+    content: "Strong algorithmic foundation (500+ problems solved) ensures efficient code.",
+    type: "highlight",
     color: "#fca5a5",
-    position: "right"
+    position: "right",
+    padding: 5
   },
   {
     target: "#contact-footer",
-    content: "Let's discuss how I can add value to your project.",
+    content: "Let's discuss how my skills can drive your team forward.",
     type: "circle",
     color: "#10b981", 
     padding: 20,

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FiMapPin, FiGithub, FiLinkedin, FiMail, FiCode, FiArrowUpRight, FiCopy, FiGlobe, FiCheck } from "react-icons/fi";
-import { SiReact, SiNodedotjs, SiMongodb, SiTailwindcss, SiJavascript, SiTypescript, SiPostgresql, SiDocker, SiNextdotjs, SiAmazon, SiFigma, SiPython, SiGit, SiRedux, SiGraphql, SiFirebase, SiHtml5, SiCss3, SiPhp, SiMysql, SiC, SiCplusplus, SiJava, SiPostman, SiExpress } from "react-icons/si";
+import { SiReact, SiNodedotjs, SiMongodb, SiTailwindcss, SiJavascript, SiTypescript, SiPostgresql, SiDocker, SiNextdotjs, SiAmazon, SiFigma, SiPython, SiGit, SiRedux, SiGraphql, SiFirebase, SiHtml5, SiCss3, SiPhp, SiMysql, SiGithub } from "react-icons/si";
 import { useNotification } from "../../context/NotificationContext";
 
 /* --- Helper Components (Defined TOP to prevent hoisting errors) --- */
@@ -172,7 +172,6 @@ const BentoGrid = () => {
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-3">
                              <div className="p-2 bg-teal-500/10 rounded-lg">
-                                <SiCodechef className="text-teal-500 text-xl" /> {/* Changed icon to represent 'Stack' generally if SiCodechef not avail, sticking to generic or existing. actually SiReact was there. */}
                                 <FiCode className="text-teal-500 text-xl" />
                             </div>
                             <div>
@@ -189,9 +188,9 @@ const BentoGrid = () => {
                         <div className="col-span-2 sm:col-span-2">
                              <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Languages</h4>
                              <div className="flex flex-wrap gap-2">
-                                <TechBadge icon={SiC} name="C" color="text-blue-500" />
-                                <TechBadge icon={SiCplusplus} name="C++" color="text-blue-600" />
-                                <TechBadge icon={SiJava} name="Java" color="text-red-500" />
+                                <TechBadge icon={SiPython} name="C" color="text-blue-500" />
+                                <TechBadge icon={SiPython} name="C++" color="text-blue-600" />
+                                <TechBadge icon={SiJavascript} name="Java" color="text-red-500" />
                                 <TechBadge icon={SiJavascript} name="JS" color="text-yellow-400" />
                                 <TechBadge icon={SiPython} name="Python" color="text-blue-400" />
                              </div>
@@ -213,7 +212,7 @@ const BentoGrid = () => {
                              <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Backend</h4>
                              <div className="flex flex-wrap gap-2">
                                 <TechBadge icon={SiNodedotjs} name="Node.js" color="text-green-500" />
-                                <TechBadge icon={SiExpress} name="Express" color="text-stone-500 dark:text-stone-300" />
+                                <TechBadge icon={SiNodedotjs} name="Express" color="text-stone-500 dark:text-stone-300" />
                                 <TechBadge icon={SiPhp} name="PHP" color="text-indigo-400" />
                              </div>
                         </div>
@@ -233,7 +232,7 @@ const BentoGrid = () => {
                              <div className="flex flex-wrap gap-2">
                                 <TechBadge icon={SiGit} name="Git" color="text-orange-600" />
                                 <TechBadge icon={SiGithub} name="GitHub" color="text-stone-900 dark:text-white" />
-                                <TechBadge icon={SiPostman} name="Postman" color="text-orange-500" />
+                                <TechBadge icon={SiGit} name="Postman" color="text-orange-500" />
                              </div>
                         </div>
                     </div>

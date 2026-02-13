@@ -47,8 +47,9 @@ const Word = ({ children, progress, range }) => {
   const opacity = useTransform(progress, range, [0, 1]);
   return (
     <span className="relative mr-3 mt-3 lg:mr-4 lg:mt-4">
-      <span className="absolute opacity-20">{children}</span>
-      <motion.span style={{ opacity: opacity }} className="text-black dark:text-white">
+      {/* Ghost text for layout - select-none to avoid double selection */}
+      <span className="absolute opacity-20 select-none" aria-hidden="true">{children}</span>
+      <motion.span style={{ opacity: opacity }} className="text-black dark:text-white relative">
         {children}
       </motion.span>
     </span>

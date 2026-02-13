@@ -12,14 +12,12 @@ export const NotificationProvider = ({ children }) => {
 
         setTimeout(() => {
             setNotification((current) => {
-                // Only clear if it's still the same notification
+                // Only clear if it's still the same notification (check by ID)
                 if (current && current.id <= Date.now() - duration + 100) {
                     return null;
                 }
-                return current; // Let the new one stay or simple timeout clearing
+                return current;
             });
-            // Simple timeout for now, precise ID check is better but this works for basic cases
-            setNotification(null);
         }, duration);
     }, []);
 
