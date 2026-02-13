@@ -13,31 +13,34 @@ const AnnotationTrigger = ({ step }) => {
     const element = document.querySelector(step.target);
     if (element) {
       setTargetElement(element);
+      let intervalId;
       
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-            // Re-calculate coords when visible to ensure accuracy
             updateCoords(element);
+            // Continuous update for layout shifts (images/animations)
+            intervalId = setInterval(() => updateCoords(element), 100);
           } else {
-             // Optional: Hide when scrolling away? 
-             // Keeping it visible once triggered might be less distracting, 
-             // but 'auto does that' implies reaction. Let's hide to re-trigger for impact.
-             setIsVisible(false);
+            setIsVisible(false);
+            if (intervalId) clearInterval(intervalId);
           }
         },
-        { threshold: 0.6 } // Trigger when 60% visible
+        { threshold: 0.6 }
       );
 
       observer.observe(element);
 
-      // Handle resize to update coordinates
       window.addEventListener('resize', () => updateCoords(element));
+      // Also listen to scroll to handle any fixed/sticky quirks
+      window.addEventListener('scroll', () => updateCoords(element));
       
       return () => {
         observer.disconnect();
         window.removeEventListener('resize', () => updateCoords(element));
+        window.removeEventListener('scroll', () => updateCoords(element));
+        if (intervalId) clearInterval(intervalId);
       };
     }
   }, [step.target]);

@@ -1,4 +1,3 @@
-
 export const tourSteps = [
   {
     target: "#home-badge",
@@ -6,12 +5,12 @@ export const tourSteps = [
     type: "circle", 
     color: "#f59e0b",
     position: "right",
-    padding: 8
+    padding: 5
   },
   {
     target: "#hero-name",
     content: "I build robust, scalable full-stack applications that solve real business problems.",
-    type: "highlight",
+    type: "underline",
     color: "#fca5a5", 
     multiline: true,
     position: "bottom-right"
@@ -35,8 +34,7 @@ export const tourSteps = [
   {
     target: "#tech-arsenal-heading",
     content: "Proficient across the full stack: React, Node.js, Express, and MongoDB.",
-    type: "bracket",
-    brackets: ["left", "right"],
+    type: "box",
     color: "#0ea5e9", // sky-500
     position: "top-center",
     padding: 5
@@ -60,7 +58,7 @@ export const tourSteps = [
   {
     target: "#achievement-dsa", // Specific usage
     content: "Strong algorithmic foundation (500+ problems solved) ensures efficient code.",
-    type: "highlight",
+    type: "box",
     color: "#fca5a5",
     position: "right",
     padding: 5
@@ -70,7 +68,7 @@ export const tourSteps = [
     content: "Let's discuss how my skills can drive your team forward.",
     type: "circle",
     color: "#10b981", 
-    padding: 20,
+    padding: 10,
     position: "top-center"
   }
 ];
