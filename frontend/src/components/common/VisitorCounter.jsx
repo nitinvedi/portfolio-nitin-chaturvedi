@@ -7,22 +7,29 @@ const VisitorCounter = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Using countapi.xyz - a free counter API
-        // Namespace: nitin-portfolio-global-v1 (unique to this project)
-        // Key: visits
+        // Switching to api.counterapi.dev for better reliability
         const fetchCount = async () => {
             try {
-                // First try to 'hit' (increment)
-                const response = await fetch('https://api.countapi.xyz/hit/nitin-portfolio-global-v1/visits');
+                // Namespace: nitin-portfolio-main
+                // Key: visits
+                const response = await fetch('https://api.counterapi.dev/v1/nitin-portfolio-main/visits/up');
                 const data = await response.json();
-                setCount(data.value);
+                
+                if (data && data.count) {
+                    setCount(data.count);
+                    localStorage.setItem('portfolio_visit_count', data.count.toString());
+                } else {
+                    throw new Error("Invalid response format");
+                }
             } catch (error) {
                 console.error("Counter API Error:", error);
-                // Fallback: Try to get from local storage or show a base number
+                
+                // Fallback: Use local storage (incrementing)
                 const localCount = localStorage.getItem('portfolio_visit_count');
                 if (localCount) {
-                    setCount(parseInt(localCount) + 1);
-                    localStorage.setItem('portfolio_visit_count', (parseInt(localCount) + 1).toString());
+                    const newCount = parseInt(localCount) + 1;
+                    setCount(newCount);
+                    localStorage.setItem('portfolio_visit_count', newCount.toString());
                 } else {
                     setCount(124); // Semantic base number
                 }
