@@ -1,165 +1,113 @@
 import { useRef, useState } from "react";
-import { motion, useSpring, useTransform, useMotionTemplate, useMotionValue } from "framer-motion";
-import { FiGithub, FiExternalLink, FiArrowRight } from "react-icons/fi";
+import { motion, useSpring, useMotionValue } from "framer-motion";
+import { FiGithub, FiExternalLink, FiArrowUpRight } from "react-icons/fi";
 
 const Card = ({ project, index = 0 }) => {
   const ref = useRef(null);
-  const [hovered, setHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  
+  // Mouse tracking for custom cursor within the card
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const rotateX = useTransform(mouseY, [-300, 300], [5, -5]);
-  const rotateY = useTransform(mouseX, [-300, 300], [-5, 5]);
-
-  // Dynamic Gradients based on index
-  const gradients = [
-    "from-indigo-500/5 to-purple-500/5",
-    "from-emerald-500/5 to-teal-500/5",
-    "from-amber-500/5 to-orange-500/5",
-    "from-rose-500/5 to-pink-500/5",
-    "from-cyan-500/5 to-blue-500/5",
-  ];
-  const bgGradient = gradients[index % gradients.length];
-  const accentColor = [
-    "bg-indigo-500", "bg-emerald-500", "bg-amber-500", "bg-rose-500", "bg-cyan-500"
-  ][index % gradients.length];
-  const accentText = [
-    "text-indigo-500", "text-emerald-500", "text-amber-500", "text-rose-500", "text-cyan-500"
-  ][index % gradients.length];
-
-  function handleMouseMove({ currentTarget, clientX, clientY }) {
-    const { left, top, width, height } = currentTarget.getBoundingClientRect();
-    const x = clientX - left - width / 2;
-    const y = clientY - top - height / 2;
-    
-    mouseX.set(x);
-    mouseY.set(y);
-  }
-
-  const cardVariants = {
-    hover: {
-      y: -5,
-    }
+  const handleMouseMove = (e) => {
+    const rect = ref.current.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
   };
+
+  // Smooth follow for cursor
+  const cursorX = useSpring(mouseX, { stiffness: 150, damping: 15, mass: 0.1 });
+  const cursorY = useSpring(mouseY, { stiffness: 150, damping: 15, mass: 0.1 });
 
   return (
     <motion.div
       ref={ref}
       onMouseMove={handleMouseMove}
-      className={`group relative rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 overflow-hidden bg-gradient-to-br ${bgGradient}`}
-      variants={cardVariants}
-      whileHover="hover"
-      transition={{ type: "spring", stiffness: 300 }}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-        perspective: 1000
-      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative w-full aspect-[4/5] sm:aspect-[3/4] rounded-xl overflow-hidden cursor-none" // Consistent rounded-xl
     >
-      <Spotlight mouseX={mouseX} mouseY={mouseY} />
-      
-      <div className="relative z-10 p-6 flex flex-col h-full">
-        {/* Header: Title */}
-        <div className="flex justify-between items-start mb-4">
-          <div className="flex flex-col gap-1">
-             <div className="flex items-center gap-2">
-                <span className={`w-2 h-2 rounded-full ${accentColor} animate-pulse`}></span>
-                <span className={`text-xs font-semibold uppercase tracking-wider ${accentText} opacity-80`}>
-                    Project
-                </span>
-             </div>
-             <h3 className="text-2xl font-bold font-display text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                {project.title}
-             </h3>
-          </div>
-        </div>
+      {/* 1. Background Image Layer */}
+      <div className="absolute inset-0 z-0">
+          <motion.img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover saturate-[0.8] brightness-[0.9] transition-all duration-700 ease-out group-hover:saturate-100 group-hover:brightness-100 group-hover:scale-110"
+          />
+          {/* Noise Overlay */}
+          <div className="absolute inset-0 bg-noise opacity-30 mix-blend-overlay pointer-events-none"></div>
+          {/* Gradient Overlay for Text Readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-50"></div>
+      </div>
 
-        {/* Description */}
-        <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6 flex-grow font-sans">
-          {project.description}
-        </p>
+      {/* 2. Custom Magnetic Cursor (Only visible on hover) */}
+      <motion.div
+        className="absolute pointer-events-none z-50 flex items-center justify-center w-20 h-20 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white font-medium text-xs uppercase tracking-widest mix-blend-difference"
+        style={{
+            left: cursorX,
+            top: cursorY,
+            x: "-50%",
+            y: "-50%",
+            opacity: isHovered ? 1 : 0,
+            scale: isHovered ? 1 : 0.5,
+        }}
+      >
+         View
+      </motion.div>
 
-        {/* Tech Stack Pills - Glassmorphic */}
-        <div className="flex flex-wrap gap-2 mb-16">
-          {project.technologies.slice(0, 4).map((tech) => (
-            <span
-              key={tech}
-              className="px-2.5 py-1 rounded-md text-xs font-medium bg-white/40 dark:bg-zinc-800/40 backdrop-blur-md text-zinc-600 dark:text-zinc-300 border border-white/20 dark:border-zinc-700/50 shadow-sm"
-            >
-              {tech}
-            </span>
-          ))}
-          {project.technologies.length > 4 && (
-             <span className="px-2.5 py-1 rounded-md text-xs font-medium bg-white/40 dark:bg-zinc-800/40 backdrop-blur-md text-zinc-400 border border-white/20 dark:border-zinc-800/50">
-                +{project.technologies.length - 4}
+      {/* 3. Content Layout (Editorial Style) */}
+      <div className="absolute inset-0 z-10 p-6 flex flex-col justify-between">
+          
+          {/* Top: Index & Links */}
+          <div className="flex justify-between items-start">
+             <span className="text-4xl font-serif text-white/20 font-bold">
+                {String(index + 1).padStart(2, '0')}
              </span>
-          )}
-        </div>
 
-        {/* Footer: Learn More Link & Reveal Action Bar */}
-        <div className="mt-auto pt-4 border-t border-zinc-100 dark:border-zinc-800/50 flex justify-between items-center relative overflow-hidden">
-             <button className="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-zinc-200 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors z-20">
-                Learn more <FiArrowRight className="transition-transform group-hover:translate-x-1" />
-             </button>
+             <div className="flex gap-2 translate-y-[-20px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                {project.githubUrl && (
+                    <a href={project.githubUrl} target="_blank" rel="noreferrer" className="p-3 bg-white text-black rounded-full hover:scale-110 transition-transform cursor-pointer pointer-events-auto z-50">
+                        <FiGithub />
+                    </a>
+                )}
+                {project.liveUrl && (
+                    <a href={project.liveUrl} target="_blank" rel="noreferrer" className="p-3 bg-zinc-900 text-white rounded-full hover:scale-110 transition-transform cursor-pointer pointer-events-auto z-50">
+                        <FiArrowUpRight />
+                    </a>
+                )}
+             </div>
+          </div>
 
-             {/* Hover Reveal Action Bar */}
-             <motion.div 
-                className="absolute right-0 top-3 flex gap-2 z-30"
-                initial={{ y: 50, opacity: 0 }}
-                whileInView={{ y: 50, opacity: 0 }} // Keep hidden initially
-                variants={{
-                    hover: { y: 0, opacity: 1 }
-                }}
-             >
-                {/* Reveal on Parent Hover */}
-                <div className="flex gap-2 transform translate-y-10 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-spring">
-                    {project.githubUrl && (
-                    <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-500 dark:hover:text-white transition-colors shadow-sm"
-                        title="View Source"
-                    >
-                        <FiGithub className="text-lg" />
-                    </a>
-                    )}
-                    {project.liveUrl && (
-                    <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-500 dark:hover:text-white transition-colors shadow-sm"
-                        title="Live Demo"
-                    >
-                        <FiExternalLink className="text-lg" />
-                    </a>
-                    )}
-                </div>
-             </motion.div>
-        </div>
+          {/* Bottom: Title & Info */}
+          <div>
+              <div className="overflow-hidden mb-2">
+                 <motion.h3 
+                    className="text-3xl sm:text-4xl font-display font-medium text-white leading-tight"
+                    initial={{ y: 20, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                 >
+                    {project.title}
+                 </motion.h3>
+              </div>
+
+              <div className="max-h-0 group-hover:max-h-40 overflow-hidden transition-all duration-500 ease-in-out">
+                  <p className="text-zinc-300 text-sm leading-relaxed mb-4 mt-2 max-w-[90%] font-light">
+                      {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 pb-2">
+                      {project.technologies.slice(0, 3).map(tech => (
+                          <span key={tech} className="text-[10px] uppercase tracking-wider text-zinc-400 border border-zinc-700 px-2 py-1 rounded-full">
+                              {tech}
+                          </span>
+                      ))}
+                  </div>
+              </div>
+          </div>
       </div>
     </motion.div>
   );
 };
-
-function Spotlight({ mouseX, mouseY }) {
-  let maskImage = useMotionTemplate`radial-gradient(
-    250px circle at ${mouseX}px ${mouseY}px,
-    white,
-    transparent
-  )`;
-  let style = { maskImage, WebkitMaskImage: maskImage };
-
-  return (
-    <motion.div
-      className="pointer-events-none absolute inset-0 z-0 transition duration-300 opacity-0 group-hover:opacity-100"
-      style={style}
-    >
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 backdrop-blur-xl" />
-    </motion.div>
-  );
-}
 
 export default Card;

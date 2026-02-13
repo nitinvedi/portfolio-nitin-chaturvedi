@@ -7,20 +7,24 @@ import Education from './pages/Education.jsx'
 import MainLayout from './layouts/MainLayout.jsx'
 import { ThemeProvider } from './context/ThemeContext';
 
+import { NotificationProvider } from './context/NotificationContext';
+
 function App() {
 
   return (
     <ThemeProvider>
-      <Router>
-        <Routes>
-          <Route element={<MainLayout />}>
-            <Route path='/' element={<Home />} />
-            <Route path='/work' element={<Work />} />
-            <Route path='/edu' element={<Education />} />
-            <Route path='/projects' element={<Projects />} />
-          </Route>
-        </Routes>
-      </Router>
+      <NotificationProvider>
+        <Router>
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route path='/' element={<Home />} />
+              <Route path='/work' element={<Work />} />
+              <Route path='/edu' element={<Education />} />
+              <Route path='/projects' element={<Projects />} />
+            </Route>
+          </Routes>
+        </Router>
+      </NotificationProvider>
     </ThemeProvider>
   )
 }
