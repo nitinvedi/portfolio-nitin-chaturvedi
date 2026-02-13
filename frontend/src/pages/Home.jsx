@@ -12,6 +12,7 @@ import BentoGrid from '../components/specific/BentoGrid';
 import TextReveal from '../components/common/TextReveal';
 import ProjectGallery from '../components/specific/ProjectGallery';
 import HolographicCTA from '../components/common/HolographicCTA';
+import VisitorCounter from '../components/common/VisitorCounter';
 import { useNotification } from '../context/NotificationContext';
 
 const Home = () => {
@@ -214,10 +215,9 @@ const Home = () => {
                     </button>
                 </Magnetic>
              </div>
-             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700/50">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
-                <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Built with React & Tailwind</span>
-             </div>
+             
+             <VisitorCounter />
+
              <p>© {new Date().getFullYear()} Nitin Chaturvedi. All rights reserved.</p>
           </footer>
       </div>

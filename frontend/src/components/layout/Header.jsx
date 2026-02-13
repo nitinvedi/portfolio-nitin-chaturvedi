@@ -42,6 +42,10 @@ const Header = () => {
     // Insight State
     const [activeInsight, setActiveInsight] = useState(null);
     const [showInsight, setShowInsight] = useState(false);
+    
+    // Refs for stability
+    const activeInsightRef = useRef(null);
+    const timerRef = useRef(null);
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -64,16 +68,19 @@ const Header = () => {
                     const sectionId = entry.target.id;
                     const insight = insights.find(i => i.id === sectionId);
                     
-                    if (insight && insight.id !== activeInsight) {
+                    if (insight && insight.id !== activeInsightRef.current) {
+                        // Update State & Ref
                         setActiveInsight(insight.id);
+                        activeInsightRef.current = insight.id;
                         setShowInsight(true);
                         
+                        // Clear existing timer
+                        if (timerRef.current) clearTimeout(timerRef.current);
+                        
                         // Auto-hide after 3.5 seconds
-                        const timer = setTimeout(() => {
+                        timerRef.current = setTimeout(() => {
                             setShowInsight(false);
                         }, 3500);
-                        
-                        return () => clearTimeout(timer);
                     }
                 }
             });
@@ -86,8 +93,11 @@ const Header = () => {
             if (element) observer.observe(element);
         });
 
-        return () => observer.disconnect();
-    }, [activeInsight]); // Re-run activeInsight changes to prevent loops
+        return () => {
+             observer.disconnect();
+             if (timerRef.current) clearTimeout(timerRef.current);
+        };
+    }, []); // Empty dependency array = Stable observer
 
     // Navigation Items
     const navItems = [
