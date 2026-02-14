@@ -124,9 +124,9 @@ function TechIcon({ Icon, color, label }) {
     );
 }
 
-function TechBadge({ icon: Icon, name, color }) {
+function TechBadge({ icon: Icon, name, color, id }) {
     return (
-        <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700/50 hover:border-amber-500/30 transition-colors">
+        <div id={id} className="flex items-center gap-1.5 px-2 py-1 rounded bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700/50 hover:border-amber-500/30 transition-colors">
             <Icon className={`text-base ${color}`} />
             <span className="text-[10px] sm:text-xs font-medium text-stone-600 dark:text-stone-300">{name}</span>
         </div>
@@ -211,8 +211,8 @@ const BentoGrid = () => {
                          <div className="col-span-2 sm:col-span-2">
                              <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Backend</h4>
                              <div className="flex flex-wrap gap-2">
-                                <TechBadge icon={SiNodedotjs} name="Node.js" color="text-green-500" />
-                                <TechBadge icon={SiNodedotjs} name="Express" color="text-stone-500 dark:text-stone-300" />
+                                <TechBadge id="tech-node" icon={SiNodedotjs} name="Node.js" color="text-green-500" />
+                                <TechBadge id="tech-express" icon={SiNodedotjs} name="Express" color="text-stone-500 dark:text-stone-300" />
                                 <TechBadge icon={SiPhp} name="PHP" color="text-indigo-400" />
                              </div>
                         </div>

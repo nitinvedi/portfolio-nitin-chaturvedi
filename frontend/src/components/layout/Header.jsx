@@ -33,6 +33,41 @@ const insights = [
     },
 ];
 
+// --- Cinematic Theme Toggle Component ---
+const ThemeToggle = ({ theme, toggleTheme }) => {
+    return (
+        <button 
+            onClick={toggleTheme}
+            className="relative w-10 h-10 rounded-full flex items-center justify-center overflow-hidden hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+            aria-label="Toggle Theme"
+        >
+            <AnimatePresence mode="wait">
+                {theme === 'dark' ? (
+                    <motion.div
+                        key="moon"
+                        initial={{ rotate: -90, scale: 0 }}
+                        animate={{ rotate: 0, scale: 1 }}
+                        exit={{ rotate: 90, scale: 0 }}
+                        transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
+                    >
+                        <FiMoon className="text-xl text-teal-400 fill-teal-400/20" />
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="sun"
+                        initial={{ rotate: 90, scale: 0 }}
+                        animate={{ rotate: 0, scale: 1 }}
+                        exit={{ rotate: -90, scale: 0 }}
+                        transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
+                    >
+                         <FiSun className="text-xl text-amber-500 fill-amber-500/20" />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </button>
+    );
+};
+
 const Header = () => {
     let mouseX = useMotionValue(Infinity);
     const { theme, toggleTheme } = useTheme();
@@ -54,7 +89,7 @@ const Header = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Scroll Detection Logic
+    // Scroll Detection Logic (Unchanged)
     useEffect(() => {
         const observerOptions = {
             root: null,
@@ -74,10 +109,8 @@ const Header = () => {
                         activeInsightRef.current = insight.id;
                         setShowInsight(true);
                         
-                        // Clear existing timer
                         if (timerRef.current) clearTimeout(timerRef.current);
                         
-                        // Auto-hide after 3.5 seconds
                         timerRef.current = setTimeout(() => {
                             setShowInsight(false);
                         }, 3500);
@@ -97,9 +130,9 @@ const Header = () => {
              observer.disconnect();
              if (timerRef.current) clearTimeout(timerRef.current);
         };
-    }, []); // Empty dependency array = Stable observer
+    }, []);
 
-    // Navigation Items
+    // Navigation Items & Socials (Unchanged)
     const navItems = [
         { id: 'home', icon: FiHome, label: 'Home', action: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
         { id: 'about', icon: FiUser, label: 'About', action: () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }) },
@@ -107,7 +140,6 @@ const Header = () => {
         { id: 'experience', icon: FiBriefcase, label: 'Experience', action: () => document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' }) },
     ];
 
-    // External Links
     const socialItems = [
         { id: 'github', icon: FiGithub, label: 'GitHub', href: "https://github.com/nitinvedi" },
         { id: 'linkedin', icon: FiLinkedin, label: 'LinkedIn', href: "https://www.linkedin.com/in/nitinvedi" },
@@ -117,107 +149,111 @@ const Header = () => {
 
     const currentInsightData = insights.find(i => i.id === activeInsight);
     
-    // Priority Logic: Notification > Insight > Nav
+    // Priority Logic
     const shouldShowNotification = !!notification;
     const shouldShowInsight = showInsight && currentInsightData && !shouldShowNotification;
     
-    // Determine what to display
-    let displayContent = null;
-    let modeKey = "nav";
+    // Determine content for flipping
+    const isNotifyMode = shouldShowNotification || shouldShowInsight;
 
-    if (shouldShowNotification) {
-        modeKey = "notification";
-        displayContent = (
-            <motion.div
-                key="notification"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="flex items-center gap-3 text-stone-800 dark:text-stone-200 whitespace-nowrap px-2"
-            >
-                 <div className="p-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                    <notification.icon className="text-sm" />
-                </div>
-                <span className="text-sm font-medium">{notification.message}</span>
-            </motion.div>
-        );
-    } else if (shouldShowInsight) {
-        modeKey = "insight";
-        displayContent = (
-             <motion.div
-                key="insight"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="flex items-center gap-3 text-stone-800 dark:text-stone-200 whitespace-nowrap px-2"
-            >
-                 <div className="p-1.5 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400">
-                    <currentInsightData.icon className="text-sm" />
-                </div>
-                <span className="text-sm font-medium">{currentInsightData.text}</span>
-            </motion.div>
-        );
-    } else {
-        modeKey = "nav";
-        displayContent = (
-             <motion.div
-                key="nav"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="flex items-end gap-2 sm:gap-2 no-scrollbar"
-            >
-                {/* Internal Nav */}
-                {navItems.map((item) => (
-                    <DockIcon key={item.id} mouseX={mouseX} label={item.label} onClick={item.action} isMobile={isMobile}>
-                        <item.icon className="text-lg sm:text-xl" />
-                    </DockIcon>
-                ))}
+    // --- Animation Variants ---
+    const containerVariants = {
+        nav: { boxShadow: "0px 10px 30px -10px rgba(0,0,0,0.1)" },
+        notify: { boxShadow: "0px 10px 30px -10px rgba(0,0,0,0.1)" } 
+    };
 
-                {/* Divider */}
-                <div className="h-6 sm:h-8 w-px bg-stone-300 dark:bg-stone-700 mx-0.5 sm:mx-1 self-center opacity-50 shrink-0" />
-
-                {/* Socials */}
-                {socialItems.map((item) => (
-                    <DockIcon key={item.id} mouseX={mouseX} label={item.label} href={item.href} isMobile={isMobile}>
-                        <item.icon className="text-lg sm:text-xl" />
-                    </DockIcon>
-                ))}
-
-                {/* Divider */}
-                <div className="h-6 sm:h-8 w-px bg-stone-300 dark:bg-stone-700 mx-0.5 sm:mx-1 self-center opacity-50 shrink-0" />
-
-                {/* Theme Toggle */}
-                <DockIcon mouseX={mouseX} label={theme === 'dark' ? 'Light Mode' : 'Dark Mode'} onClick={toggleTheme} isMobile={isMobile}>
-                    {theme === 'dark' ? <FiSun className="text-lg sm:text-xl" /> : <FiMoon className="text-lg sm:text-xl" />}
-                </DockIcon>
-            </motion.div>
-        );
-    }
+    // Slide Animation for Content
+    const contentVariants = {
+        hidden: { y: 20, opacity: 0, filter: "blur(4px)" },
+        visible: { y: 0, opacity: 1, filter: "blur(0px)" },
+        exit: { y: -20, opacity: 0, filter: "blur(4px)" }
+    };
 
     return (
-        <motion.div 
-            initial={{ y: -100, x: "-50%", opacity: 0 }}
-            animate={{ y: 0, x: "-50%", opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.8, type: "spring", stiffness: 100 }}
-            className="fixed top-6 left-1/2 z-50 pointer-events-none w-full flex justify-center px-4"
-        >
+        <div className="fixed top-6 left-0 w-full flex justify-center z-50 pointer-events-none px-4">
             <motion.div
-                onMouseMove={(e) => !isMobile && modeKey === 'nav' && mouseX.set(e.pageX)}
+                // Fixed Layout - No morphing size
+                variants={containerVariants}
+                animate={isNotifyMode ? "notify" : "nav"}
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                onMouseMove={(e) => !isMobile && !isNotifyMode && mouseX.set(e.pageX)}
                 onMouseLeave={() => !isMobile && mouseX.set(Infinity)}
-                className="pointer-events-auto flex items-center justify-center rounded-full border border-stone-200/50 dark:border-white/5 bg-white/60 dark:bg-black/60 backdrop-blur-md px-4 py-2 shadow-lg shadow-black/5 ring-1 ring-black/5 dark:ring-white/5 max-w-full overflow-hidden min-h-[50px] min-w-[300px]"
+                className={`pointer-events-auto relative flex items-center justify-center rounded-full 
+                            bg-white/60 dark:bg-black/60 backdrop-blur-md border border-white/20 dark:border-white/10
+                            shadow-lg overflow-hidden px-4 py-2 w-auto min-w-[340px] h-[54px]`} // Fixed Dimensions
             >
-                <AnimatePresence mode="wait">
-                    {displayContent}
+                <AnimatePresence mode="wait"> 
+                    {shouldShowNotification ? (
+                        <motion.div
+                            key="notification"
+                            variants={contentVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="flex items-center gap-3 whitespace-nowrap text-stone-800 dark:text-stone-200"
+                        >
+                            <span className="p-1 rounded-full bg-green-500/20 text-green-600 dark:text-green-400">
+                                <notification.icon />
+                            </span>
+                            <span className="font-medium text-sm">{notification.message}</span>
+                        </motion.div>
+                    ) : shouldShowInsight ? (
+                         <motion.div
+                            key="insight"
+                            variants={contentVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                             transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="flex items-center gap-3 whitespace-nowrap text-stone-800 dark:text-stone-200"
+                        >
+                             <span className="p-1 rounded-full bg-teal-500/20 text-teal-600 dark:text-teal-400">
+                                <currentInsightData.icon />
+                            </span>
+                            <span className="font-medium text-sm">{currentInsightData.text}</span>
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                             key="nav"
+                             variants={contentVariants}
+                             initial="hidden"
+                             animate="visible"
+                             exit="exit"
+                             transition={{ duration: 0.3, ease: "easeInOut" }}
+                             className="flex items-center gap-2 sm:gap-1"
+                        >
+                            {/* Internal Nav */}
+                            {navItems.map((item) => (
+                                <DockIcon key={item.id} mouseX={mouseX} label={item.label} onClick={item.action} isMobile={isMobile}>
+                                    <item.icon className="text-xl" />
+                                </DockIcon>
+                            ))}
+            
+                            {/* Divider */}
+                            <div className="h-6 w-px bg-stone-300 dark:bg-stone-700 mx-2 opacity-30" />
+            
+                            {/* Socials */}
+                            {socialItems.map((item) => (
+                                <DockIcon key={item.id} mouseX={mouseX} label={item.label} href={item.href} isMobile={isMobile}>
+                                    <item.icon className="text-xl" />
+                                </DockIcon>
+                            ))}
+            
+                            {/* Divider */}
+                            <div className="h-6 w-px bg-stone-300 dark:bg-stone-700 mx-2 opacity-30" />
+            
+                            {/* 5. Cinematic Theme Toggle */}
+                            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+                        </motion.div>
+                    )}
                 </AnimatePresence>
             </motion.div>
-        </motion.div>
+        </div>
     );
 };
 
+// 3. Magnetic Nav Links (Enhanced Physics)
 function DockIcon({ mouseX, children, href, onClick, label, isMobile }) {
     let ref = useRef(null);
     const [isHovered, setIsHovered] = useState(false);
@@ -227,15 +263,14 @@ function DockIcon({ mouseX, children, href, onClick, label, isMobile }) {
         return val - bounds.x - bounds.width / 2;
     });
 
-    // Magnification Curve: Only active on Desktop
-    // Reduced max width for subtle effect (40 -> 60)
-    let widthSync = useTransform(distance, [-100, 0, 100], [40, 60, 40]);
-    let width = useSpring(widthSync, { mass: 0.1, stiffness: 150, damping: 12 });
+    // Stronger Magnification & Spring for "Magnetic" feel
+    let widthSync = useTransform(distance, [-120, 0, 120], [40, 55, 40]);
+    let width = useSpring(widthSync, { mass: 0.1, stiffness: 200, damping: 15 });
 
     const content = (
         <motion.div 
-            className="w-full h-full flex items-center justify-center text-stone-500 dark:text-stone-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
-            whileHover={!isMobile ? { scale: 1.1 } : {}} 
+            className="w-full h-full flex items-center justify-center text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
+            whileHover={{ scale: 1.1 }} 
             whileTap={{ scale: 0.9 }}
         >
             {children}
@@ -251,6 +286,17 @@ function DockIcon({ mouseX, children, href, onClick, label, isMobile }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
+             {/* Hover Glow/Spotlight */}
+             {isHovered && (
+                <motion.div 
+                    layoutId="spotlight"
+                    className="absolute inset-2 bg-stone-200/50 dark:bg-stone-700/50 rounded-full -z-10 blur-sm"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                />
+             )}
+
             {href ? (
                 <a href={href} target="_blank" rel="noreferrer" className="w-full h-full flex items-center justify-center">
                     {content}
@@ -260,20 +306,6 @@ function DockIcon({ mouseX, children, href, onClick, label, isMobile }) {
                     {content}
                 </button>
             )}
-
-            {/* Tooltip - Hide on mobile */}
-            <AnimatePresence>
-                {isHovered && !isMobile && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.8, x: "-50%" }}
-                        animate={{ opacity: 1, y: -15, scale: 1, x: "-50%" }}
-                        exit={{ opacity: 0, y: 5, scale: 0.8, x: "-50%" }}
-                        className="absolute -top-10 left-1/2 px-3 py-1 bg-stone-900/90 dark:bg-stone-100/90 text-stone-100 dark:text-stone-900 text-xs font-medium rounded-lg whitespace-nowrap backdrop-blur-md pointer-events-none shadow-xl border border-white/10 dark:border-black/10 z-[60]"
-                    >
-                        {label}
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </motion.div>
     );
 }

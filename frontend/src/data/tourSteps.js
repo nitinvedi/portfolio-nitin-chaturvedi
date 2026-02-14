@@ -2,7 +2,7 @@ export const tourSteps = [
   {
     target: "#home-badge",
     content: "Ready to contribute from Day 1.",
-    type: "circle", 
+    type: "box", 
     color: "#f59e0b",
     position: "right",
     padding: 5
@@ -32,14 +32,6 @@ export const tourSteps = [
     padding: 0
   },
   {
-    target: "#tech-arsenal-heading",
-    content: "Proficient across the full stack: React, Node.js, Express, and MongoDB.",
-    type: "box",
-    color: "#0ea5e9", // sky-500
-    position: "top-center",
-    padding: 5
-  },
-  {
     target: "#project-gallery-heading",
     content: "Check out my portfolio of deployed projects solving complex challenges.",
     type: "underline", 
@@ -49,11 +41,27 @@ export const tourSteps = [
   },
   {
     target: "#experience-ram-mobiles", // Specific usage
-    content: "Proven track record: Delivered features that directly increased revenue.",
+    content: "Delivered features that directly increased revenue.",
     type: "bracket",
-    brackets: ["left"],
+    brackets: ["left"], // keep bracket for timeline feel
     color: "#ec4899",
-    position: "right"
+    position: "bottom-left" // moved to avoid overlap
+  },
+  {
+    target: "#tech-node",
+    content: "Asynchronous event-driven runtime.",
+    type: "box",
+    color: "#22c55e", 
+    position: "top-center",
+    padding: 2
+  },
+  {
+    target: "#tech-express",
+    content: "The fast, unopinionated backend framework.",
+    type: "underline",
+    color: "#6b7280", 
+    position: "bottom-center",
+    padding: 0
   },
   {
     target: "#achievement-dsa", // Specific usage
@@ -66,7 +74,8 @@ export const tourSteps = [
   {
     target: "#contact-footer",
     content: "Let's discuss how my skills can drive your team forward.",
-    type: "circle",
+    type: "bracket",
+    brackets: ["top"],
     color: "#10b981", 
     padding: 10,
     position: "top-center"

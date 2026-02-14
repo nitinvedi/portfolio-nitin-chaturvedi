@@ -28,8 +28,12 @@ export const ThemeProvider = ({ children }) => {
       return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
