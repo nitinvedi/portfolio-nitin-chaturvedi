@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FiMapPin, FiGithub, FiLinkedin, FiMail, FiCode, FiArrowUpRight, FiCopy, FiGlobe, FiCheck } from "react-icons/fi";
 import { SiReact, SiNodedotjs, SiMongodb, SiTailwindcss, SiJavascript, SiTypescript, SiPostgresql, SiDocker, SiNextdotjs, SiAmazon, SiFigma, SiPython, SiGit, SiRedux, SiGraphql, SiFirebase, SiHtml5, SiCss3, SiPhp, SiMysql, SiGithub } from "react-icons/si";
-import { useNotification } from "../../context/NotificationContext";
+
 
 /* --- Helper Components (Defined TOP to prevent hoisting errors) --- */
 
@@ -80,11 +80,8 @@ function RotatingTextCircle({ text }) {
 }
 
 function CopyEmailButton({ email }) {
-    const { notify } = useNotification();
-
     const handleCopy = () => {
         navigator.clipboard.writeText(email);
-        notify("Email copied to clipboard!", FiCheck);
     };
 
     return (

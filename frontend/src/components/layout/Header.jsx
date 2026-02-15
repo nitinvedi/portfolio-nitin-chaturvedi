@@ -3,7 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from
 import { FiHome, FiUser, FiGrid, FiBriefcase, FiMail, FiMoon, FiSun, FiGithub, FiLinkedin, FiFileText, FiZap, FiCode, FiCheck } from 'react-icons/fi';
 import { SiLeetcode } from "react-icons/si";
 import { useTheme } from "../../context/ThemeContext";
-import { useNotification } from "../../context/NotificationContext";
+
 
 const insights = [
     { 
@@ -71,7 +71,6 @@ const ThemeToggle = ({ theme, toggleTheme }) => {
 const Header = () => {
     let mouseX = useMotionValue(Infinity);
     const { theme, toggleTheme } = useTheme();
-    const { notification } = useNotification();
     const [isMobile, setIsMobile] = useState(false);
     
     // Insight State
@@ -150,11 +149,10 @@ const Header = () => {
     const currentInsightData = insights.find(i => i.id === activeInsight);
     
     // Priority Logic
-    const shouldShowNotification = !!notification;
-    const shouldShowInsight = showInsight && currentInsightData && !shouldShowNotification;
+    const shouldShowInsight = showInsight && currentInsightData;
     
     // Determine content for flipping
-    const isNotifyMode = shouldShowNotification || shouldShowInsight;
+    const isNotifyMode = shouldShowInsight;
 
     // --- Animation Variants ---
     const containerVariants = {
@@ -183,22 +181,7 @@ const Header = () => {
                             shadow-lg overflow-hidden px-4 py-2 w-auto min-w-[340px] h-[54px]`} // Fixed Dimensions
             >
                 <AnimatePresence mode="wait"> 
-                    {shouldShowNotification ? (
-                        <motion.div
-                            key="notification"
-                            variants={contentVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="flex items-center gap-3 whitespace-nowrap text-stone-800 dark:text-stone-200"
-                        >
-                            <span className="p-1 rounded-full bg-green-500/20 text-green-600 dark:text-green-400">
-                                <notification.icon />
-                            </span>
-                            <span className="font-medium text-sm">{notification.message}</span>
-                        </motion.div>
-                    ) : shouldShowInsight ? (
+                    {shouldShowInsight ? (
                          <motion.div
                             key="insight"
                             variants={contentVariants}

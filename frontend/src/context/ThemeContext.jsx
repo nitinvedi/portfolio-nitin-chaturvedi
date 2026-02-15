@@ -4,9 +4,16 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
-    // Default to system preference or light
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
+    // 1. Check localStorage first
+    if (typeof window !== 'undefined') {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            return savedTheme;
+        }
+        // 2. Fallback to system preference
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+        }
     }
     return 'light';
   });
@@ -15,18 +22,13 @@ export const ThemeProvider = ({ children }) => {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
+    // Save to localStorage
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // Listen for system theme changes
-  useEffect(() => {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      const handleChange = (e) => {
-          setTheme(e.matches ? 'dark' : 'light');
-      };
-
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
+  // Listen for system theme changes ONLY if no localStorage override (optional, but keep simple for now)
+  // Actually, if user manually sets theme, we usually ignore system changes until they clear it.
+  // For this simple implementation, let's let manual override persist.
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));

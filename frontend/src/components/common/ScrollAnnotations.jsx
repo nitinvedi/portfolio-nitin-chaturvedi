@@ -71,11 +71,15 @@ const AnnotationTrigger = ({ step }) => {
   const [targetElement, setTargetElement] = useState(null);
   const [isDismissed, setIsDismissed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  // Increase Threshold for "No Gutter Space" - e.g. < 1440px (approx 1152 + 250 + 250 margin)
+  // Let's be slightly lenient, say 1300px, creating smaller space or hiding. 
+  const breakpoint = 1400; 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < breakpoint);
   const [isHovered, setIsHovered] = useState(false); 
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    const handleResize = () => setIsMobile(window.innerWidth < breakpoint);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -148,53 +152,38 @@ const AnnotationTrigger = ({ step }) => {
   const readingTime = 2000 + (step.content.split(' ').length * 300);
 
   const getNoteConfig = () => {
-      const offset = 20; 
-      let style = {};
-      let arrowRotation = 0;
-      let arrowStyle = {};
+      // Logic for Gutter Placement
+      // Default: Right side unless specified "left"
+      const isRightSide = !step.position?.includes('left'); 
+      const wrapperWidth = 1152; // Approx max-w-6xl
+      const gutterOffset = 20; // Space from content edge
 
-      switch(step.position) {
-          case 'top-left': 
-              style = { bottom: '100%', right: '100%', marginBottom: offset, marginRight: offset };
-              arrowRotation = 135;
-              arrowStyle = { top: '100%', left: '100%', marginTop: -10, marginLeft: -10 };
-              break;
-          case 'top-right': 
-              style = { bottom: '100%', left: '100%', marginBottom: offset, marginLeft: offset };
-              arrowRotation = -135;
-              arrowStyle = { top: '100%', right: '100%', marginTop: -10, marginRight: -10 };
-              break;
-          case 'bottom-left': 
-              style = { top: '100%', right: '100%', marginTop: offset, marginRight: offset };
-              arrowRotation = 45;
-              arrowStyle = { bottom: '100%', left: '100%', marginBottom: -10, marginLeft: -10 };
-              break;
-          case 'bottom-right': 
-              style = { top: '100%', left: '100%', marginTop: offset, marginLeft: offset };
-              arrowRotation = -45;
-              arrowStyle = { bottom: '100%', right: '100%', marginBottom: -10, marginRight: -10 };
-              break;
-          case 'left': 
-              style = { right: '100%', top: '50%', marginRight: offset + 20, translateY: '-50%' };
-              arrowRotation = 90;
-              arrowStyle = { top: '50%', left: '100%', marginTop: -10, marginLeft: -5 };
-              break;
-          case 'right': 
-              style = { left: '100%', top: '50%', marginLeft: offset + 20, translateY: '-50%' };
-              arrowRotation = -90;
-              arrowStyle = { top: '50%', right: '100%', marginTop: -10, marginRight: -5 };
-              break;
-          case 'top-center': 
-              style = { bottom: '100%', left: '50%', translateX: '-50%', marginBottom: offset + 20 };
-              arrowRotation = 180;
-              arrowStyle = { top: '100%', left: '50%', translateX: '-50%', marginTop: -5 };
-              break;
-          case 'bottom-center':
-          default: 
-              style = { top: '100%', left: '50%', translateX: '-50%', marginTop: offset + 20 };
-              arrowRotation = 0;
-              arrowStyle = { bottom: '100%', left: '50%', translateX: '-50%', marginBottom: -5 };
-              break;
+      let style = {};
+      let arrowStyle = {};
+      let arrowRotation = 0;
+
+      if (isRightSide) {
+          // Right Gutter
+          style = {
+              top: '50%',
+              left: `calc(50vw + ${wrapperWidth / 2 + gutterOffset}px)`, 
+              translateY: '-50%',
+              width: '220px',
+              textAlign: 'left'
+          };
+          arrowRotation = 180; // Point Left
+          arrowStyle = { top: '50%', right: '100%', marginTop: -10, marginRight: -25 };
+      } else {
+          // Left Gutter
+          style = {
+              top: '50%',
+              right: `calc(50vw + ${wrapperWidth / 2 + gutterOffset}px)`,
+              translateY: '-50%',
+              width: '220px',
+              textAlign: 'right'
+          };
+          arrowRotation = 0; // Point Right
+          arrowStyle = { top: '50%', left: '100%', marginTop: -10, marginLeft: -25 };
       }
       return { style, arrowRotation, arrowStyle };
   };
@@ -202,10 +191,10 @@ const AnnotationTrigger = ({ step }) => {
   const { style, arrowRotation, arrowStyle } = getNoteConfig();
 
   const wrapperStyle = {
-    top: coords.top,
-    left: coords.left,
-    width: coords.width,
-    height: coords.height,
+    top: coords.top, // Key vertical alignment
+    left: 0, 
+    width: '100%', // Use full width for horizontal calc
+    height: coords.height, // Use element height for vertical centering reference
     position: 'absolute',
     pointerEvents: 'none', 
     zIndex: 50, 

@@ -14,18 +14,17 @@ import ProjectGallery from '../components/specific/ProjectGallery';
 import HolographicCTA from '../components/common/HolographicCTA';
 import VisitorCounter from '../components/common/VisitorCounter';
 
-import { useNotification } from '../context/NotificationContext';
+
 import AuroraBackground from '../components/common/AuroraBackground';
 import ScrollAnnotations from '../components/common/ScrollAnnotations';
 
 const Home = () => {
-  const { notify } = useNotification();
+
   // ... (rest of component logic) ...
 
   const handleCopyEmail = (e) => {
     e.preventDefault();
     navigator.clipboard.writeText("chaturvediinitin@gmail.com");
-    notify("Email copied to clipboard!", FiCheck);
   };
   
   const containerVariants = {

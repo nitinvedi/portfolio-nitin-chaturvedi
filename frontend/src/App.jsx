@@ -7,14 +7,13 @@ import Education from './pages/Education.jsx'
 import MainLayout from './layouts/MainLayout.jsx'
 import { ThemeProvider } from './context/ThemeContext';
 
-import { NotificationProvider } from './context/NotificationContext';
+
 
 function App() {
 
   return (
     <ThemeProvider>
-      <NotificationProvider>
-        <Router>
+      <Router>
           <Routes>
             <Route element={<MainLayout />}>
               <Route path='/' element={<Home />} />
@@ -24,7 +23,6 @@ function App() {
             </Route>
           </Routes>
         </Router>
-      </NotificationProvider>
     </ThemeProvider>
   )
 }

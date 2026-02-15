@@ -2,13 +2,12 @@ import { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import Card from "../common/Card";
 import { projects } from "../../data/projects";
-import { useNotification } from "../../context/NotificationContext";
+
 import { FiLayers } from 'react-icons/fi';
 
 
 const ProjectGallery = () => {
   const containerRef = useRef(null);
-  const { notify } = useNotification();
   const [activeTitle, setActiveTitle] = useState("");
 
   const { scrollYProgress } = useScroll({
@@ -22,7 +21,6 @@ const ProjectGallery = () => {
     
     if (currentProject && currentProject.title !== activeTitle) {
       setActiveTitle(currentProject.title);
-      notify(`Exploring: ${currentProject.title}`, FiLayers, 2000);
     }
   });
 

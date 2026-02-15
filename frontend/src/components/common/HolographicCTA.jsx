@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
 import { FiMail, FiCopy, FiArrowUpRight, FiCheck } from "react-icons/fi";
-import { useNotification } from "../../context/NotificationContext";
+
 
 const HolographicCTA = () => {
   return (
@@ -14,7 +14,6 @@ const HolographicCTA = () => {
 
 const TiltCard = () => {
   const ref = useRef(null);
-  const { notify } = useNotification();
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -45,7 +44,6 @@ const TiltCard = () => {
   const handleCopy = (e) => {
       e.stopPropagation();
       navigator.clipboard.writeText("chaturvediinitin@gmail.com");
-      notify("Email copied to clipboard!", FiCheck);
   };
 
   return (
