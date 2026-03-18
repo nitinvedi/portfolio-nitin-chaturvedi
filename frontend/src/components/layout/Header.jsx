@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { FiMoon, FiSun } from 'react-icons/fi';
 import { useTheme } from "../../context/ThemeContext";
+import MediaReveal from "../common/MediaReveal";
 
 const ThemeToggle = ({ theme, toggleTheme }) => {
     return (
@@ -42,6 +43,19 @@ const Header = () => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+    // Scroll reveal logic
+    const { scrollY } = useScroll();
+    const [hidden, setHidden] = useState(false);
+
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        const previous = scrollY.getPrevious();
+        if (latest > previous && latest > 150) {
+            setHidden(true);
+        } else {
+            setHidden(false);
+        }
+    });
+
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
@@ -59,10 +73,16 @@ const Header = () => {
     ];
 
     return (
-        <header 
-            className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b ${
+        <motion.header 
+            variants={{
+                visible: { y: 0 },
+                hidden: { y: "-100%" },
+            }}
+            animate={hidden ? "hidden" : "visible"}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 border-b ${
                 scrolled 
-                ? 'bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md border-stone-200 dark:border-white/5 py-4' 
+                ? 'bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border-stone-200 dark:border-white/5 py-4 shadow-sm' 
                 : 'bg-transparent border-transparent py-6'
             }`}
         >
@@ -83,29 +103,44 @@ const Header = () => {
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-8">
-                    {navItems.map((item, idx) => (
-                        item.href ? (
+                    {navItems.map((item, idx) => {
+                        const content = (
+                            <div className="text-xs font-semibold tracking-[0.15em] text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors relative group">
+                                {item.label}
+                                <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-amber-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                            </div>
+                        );
+
+                        const LinkWrapper = item.href ? (
                             <a 
                                 key={idx} 
                                 href={item.href} 
                                 target="_blank" 
                                 rel="noreferrer"
-                                className="text-xs font-semibold tracking-[0.15em] text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors relative group"
+                                className="cursor-pointer"
                             >
-                                {item.label}
-                                <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-amber-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                                {content}
                             </a>
                         ) : (
                             <button 
                                 key={idx} 
                                 onClick={item.action}
-                                className="text-xs font-semibold tracking-[0.15em] text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors relative group"
+                                className="cursor-pointer"
                             >
-                                {item.label}
-                                <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-amber-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                                {content}
                             </button>
-                        )
-                    ))}
+                        );
+
+                        if (item.label === 'WORK') {
+                            return (
+                                <MediaReveal key={idx} mediaSrc="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                                    {LinkWrapper}
+                                </MediaReveal>
+                            );
+                        }
+
+                        return LinkWrapper;
+                    })}
                     
                     {/* Divider */}
                     <div className="w-px h-4 bg-stone-300 dark:bg-stone-700"></div>
@@ -164,7 +199,7 @@ const Header = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </header>
+        </motion.header>
     );
 };
 

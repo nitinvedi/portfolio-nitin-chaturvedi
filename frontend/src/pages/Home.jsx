@@ -13,6 +13,8 @@ import ProjectGallery from '../components/specific/ProjectGallery';
 import HolographicCTA from '../components/common/HolographicCTA';
 import VisitorCounter from '../components/common/VisitorCounter';
 import GridBackground from '../components/common/GridBackground';
+import BorderBeam from '../components/common/BorderBeam';
+import SpotlightCard from '../components/common/SpotlightCard';
 
 const Home = () => {
 
@@ -134,37 +136,54 @@ const Home = () => {
           {/* Experience & Achievements (New Section) */}
           <motion.div variants={containerVariants} id="experience-timeline" className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 max-w-6xl mx-auto px-6">
               
-              {/* Experience Column */}
+              {/* Experience Timeline */}
               <div>
                   <div className="flex items-center gap-3 mb-8">
                        <FiBriefcase className="text-2xl text-teal-600 dark:text-teal-400" />
                        <h2 className="text-2xl sm:text-3xl font-bold font-serif text-stone-900 dark:text-stone-100 italic">Experience</h2>
                   </div>
                   
-                  <div className="space-y-12 relative">
+                  <div className="relative pl-8 border-l border-stone-200 dark:border-stone-800 space-y-12">
                       
-                      <div id="experience-ram-mobiles" className="relative group border-t border-stone-200 dark:border-stone-800 pt-6">
-                           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-4 mb-2">
-                               <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100">Freelance Software Developer</h3>
-                               <span className="text-sm font-mono text-stone-500 dark:text-stone-500">Nov '25 – Dec '25</span>
+                      {/* Timeline Node 1 */}
+                      <motion.div 
+                          initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+                          className="relative group cursor-default"
+                      >
+                           {/* Glow Dot */}
+                           <div className="absolute -left-[37px] top-1.5 w-4 h-4 rounded-full bg-stone-200 dark:bg-stone-800 border-2 border-white dark:border-[#0a0a0a] group-hover:bg-amber-500 group-hover:scale-125 transition-all duration-300 z-10"></div>
+                           
+                           <div className="p-6 -mt-6 rounded-2xl transition-colors duration-300 group-hover:bg-stone-50/50 dark:group-hover:bg-stone-800/40 border border-transparent group-hover:border-stone-200/50 dark:group-hover:border-white/5">
+                               <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-4 mb-2">
+                                   <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100 group-hover:text-amber-500 transition-colors">Freelance Software Developer</h3>
+                                   <span className="text-sm font-mono text-stone-500 dark:text-stone-500">Nov '25 – Dec '25</span>
+                               </div>
+                               <p className="text-amber-600 dark:text-amber-500 font-medium mb-3">Ram Mobiles</p>
+                               <p className="text-stone-600 dark:text-stone-400 leading-relaxed group-hover:text-stone-700 dark:group-hover:text-stone-300 transition-colors">
+                                   Architected a full-stack e-commerce platform with React, Node.js, and MongoDB. 
+                                   Implemented inventory logic that reduced order errors and generated <span className="text-stone-900 dark:text-stone-100 font-semibold underline decoration-amber-500/50">~₹6,000 revenue</span>.
+                               </p>
                            </div>
-                           <p className="text-amber-600 dark:text-amber-500 font-medium mb-3">Ram Mobiles</p>
-                           <p className="text-stone-600 dark:text-stone-400 leading-relaxed">
-                               Architected a full-stack e-commerce platform with React, Node.js, and MongoDB. 
-                               Implemented inventory logic that reduced order errors and generated <span className="text-stone-900 dark:text-stone-100 font-semibold underline decoration-amber-500/50">~₹6,000 revenue</span>.
-                           </p>
-                      </div>
+                      </motion.div>
 
-                      <div className="relative group border-t border-stone-200 dark:border-stone-800 pt-6">
-                           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-4 mb-2">
-                               <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100">Full Stack Trainee (MERN)</h3>
-                               <span className="text-sm font-mono text-stone-500 dark:text-stone-500">Jun '25 – Jul '25</span>
+                      {/* Timeline Node 2 */}
+                      <motion.div 
+                          initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
+                          className="relative group cursor-default"
+                      >
+                           <div className="absolute -left-[37px] top-1.5 w-4 h-4 rounded-full bg-stone-200 dark:bg-stone-800 border-2 border-white dark:border-[#0a0a0a] group-hover:bg-teal-500 group-hover:scale-125 transition-all duration-300 z-10"></div>
+                           
+                           <div className="p-6 -mt-6 rounded-2xl transition-colors duration-300 group-hover:bg-stone-50/50 dark:group-hover:bg-stone-800/40 border border-transparent group-hover:border-stone-200/50 dark:group-hover:border-white/5">
+                               <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-4 mb-2">
+                                   <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100 group-hover:text-teal-500 transition-colors">Full Stack Trainee (MERN)</h3>
+                                   <span className="text-sm font-mono text-stone-500 dark:text-stone-500">Jun '25 – Jul '25</span>
+                               </div>
+                               <p className="text-stone-500 dark:text-stone-400 font-medium mb-3">Cipher Schools</p>
+                               <p className="text-stone-600 dark:text-stone-400 leading-relaxed group-hover:text-stone-700 dark:group-hover:text-stone-300 transition-colors">
+                                   Built functionality for an Online Library Management System using modular backend architecture.
+                               </p>
                            </div>
-                           <p className="text-stone-500 dark:text-stone-400 font-medium mb-3">Cipher Schools</p>
-                           <p className="text-stone-600 dark:text-stone-400 leading-relaxed">
-                               Built functionality for an Online Library Management System using modular backend architecture.
-                           </p>
-                      </div>
+                      </motion.div>
                   </div>
               </div>
 
@@ -176,22 +195,22 @@ const Home = () => {
                   </div>
 
                   <div className="grid grid-cols-1 gap-4">
-                      <div id="achievement-dsa" className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-sm hover:shadow-md transition-shadow">
+                      <SpotlightCard className="!p-6 !rounded-2xl !bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800">
                           <h4 className="font-bold text-stone-900 dark:text-stone-100 text-lg mb-1">DSA Excellence</h4>
                           <p className="text-stone-600 dark:text-stone-400">Solved <span className="font-semibold text-teal-600 dark:text-teal-400">500+ problems</span> across LeetCode & Coding Ninjas.</p>
-                      </div>
-                      <div className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-sm hover:shadow-md transition-shadow">
+                      </SpotlightCard>
+                      <SpotlightCard className="!p-6 !rounded-2xl !bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800">
                           <h4 className="font-bold text-stone-900 dark:text-stone-100 text-lg mb-1">LeetCode Recognition</h4>
                           <p className="text-stone-600 dark:text-stone-400">Achieved a peak contest rating of <span className="font-semibold text-amber-600 dark:text-amber-500">1522</span>.</p>
-                      </div>
-                      <div className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-sm hover:shadow-md transition-shadow">
+                      </SpotlightCard>
+                      <SpotlightCard className="!p-6 !rounded-2xl !bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800">
                           <h4 className="font-bold text-stone-900 dark:text-stone-100 text-lg mb-1">High Global Rank</h4>
                           <p className="text-stone-600 dark:text-stone-400">Secured Global Rank <span className="font-semibold text-teal-600 dark:text-teal-400">3,721</span> in LeetCode Weekly Contest 488 (Dec 2025).</p>
-                      </div>
-                      <div className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-sm hover:shadow-md transition-shadow">
+                      </SpotlightCard>
+                      <SpotlightCard className="!p-6 !rounded-2xl !bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800">
                           <h4 className="font-bold text-stone-900 dark:text-stone-100 text-lg mb-1">Hackathon Finalist</h4>
                           <p className="text-stone-600 dark:text-stone-400">Coding Ninjas Binary Bitz National Hackathon (Feb '24).</p>
-                      </div>
+                      </SpotlightCard>
                   </div>
               </div>
           </motion.div>
@@ -203,16 +222,24 @@ const Home = () => {
                    <h2 className="text-2xl sm:text-3xl font-bold font-serif text-stone-900 dark:text-stone-100 italic">Certifications</h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 flex flex-col justify-between items-start gap-4 shadow-sm hover:shadow-md transition-shadow">
-                      <div>
-                          <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-1">Cloud Computing</h3>
-                          <p className="text-stone-600 dark:text-stone-400">NPTEL • May 2025</p>
+                  <div className="relative p-6 rounded-2xl bg-white dark:bg-stone-900/60 border border-stone-200 dark:border-white/5 overflow-hidden flex flex-col justify-between items-start gap-4 shadow-sm group">
+                      <BorderBeam size={200} duration={8} delay={0} />
+                      <div className="relative z-10 w-full">
+                          <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-2">Cloud Computing</h3>
+                          <div className="flex items-center justify-between w-full text-stone-600 dark:text-stone-400 font-mono text-sm">
+                              <span>NPTEL</span>
+                              <span className="opacity-60">May 2025</span>
+                          </div>
                       </div>
                   </div>
-                  <div className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 flex flex-col justify-between items-start gap-4 shadow-sm hover:shadow-md transition-shadow">
-                      <div>
-                          <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-1">Data Structures and Algorithms</h3>
-                          <p className="text-stone-600 dark:text-stone-400">Cipher Schools • Dec 2024</p>
+                  <div className="relative p-6 rounded-2xl bg-white dark:bg-stone-900/60 border border-stone-200 dark:border-white/5 overflow-hidden flex flex-col justify-between items-start gap-4 shadow-sm group">
+                      <BorderBeam size={200} duration={8} delay={4} />
+                      <div className="relative z-10 w-full">
+                          <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-2">Data Structures and Algorithms</h3>
+                          <div className="flex items-center justify-between w-full text-stone-600 dark:text-stone-400 font-mono text-sm">
+                              <span>Cipher Schools</span>
+                              <span className="opacity-60">Dec 2024</span>
+                          </div>
                       </div>
                   </div>
               </div>
