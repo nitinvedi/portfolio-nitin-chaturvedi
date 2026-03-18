@@ -8,35 +8,23 @@ const TextReveal = ({ children, className = "" }) => {
     offset: ["start 0.8", "start 0.25"],
   });
 
-  let words = [];
-  if (typeof children === "string") {
-    words = children.split(" ");
-  } else if (Array.isArray(children)) {
-    children.forEach((child) => {
-      if (typeof child === "string") {
-        words.push(...child.trim().split(/\s+/));
-      } else {
-        words.push(child);
-      }
-    });
-  } else {
-    // Fallback for single element child
-    words = [children];
-  }
-
   return (
     <div ref={targetRef} className={`relative z-0 h-[150vh] ${className}`}>
       <div className="sticky top-0 h-screen flex items-center justify-center">
-        <p className="flex flex-wrap p-5 text-2xl font-bold text-black/20 dark:text-white/20 md:p-8 md:text-3xl lg:p-10 lg:text-4xl xl:text-5xl">
-          {words.map((word, i) => {
-            const start = i / words.length;
-            const end = start + 1 / words.length;
-            return (
-              <Word key={i} progress={scrollYProgress} range={[start, end]}>
-                {word}
-              </Word>
-            );
-          })}
+        {/* Massive Typography Update */}
+        <p className="flex flex-wrap p-5 text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-black font-display tracking-tight text-stone-200 dark:text-stone-800 leading-[1.1]">
+          {Array.isArray(children) 
+            ? children.map((child, i) => {
+                const start = i / children.length;
+                const end = start + 1 / children.length;
+                return (
+                  <Word key={i} progress={scrollYProgress} range={[start, end]}>
+                    {child}
+                  </Word>
+                );
+              })
+            : <Word progress={scrollYProgress} range={[0, 1]}>{children}</Word>
+          }
         </p>
       </div>
     </div>
@@ -45,11 +33,18 @@ const TextReveal = ({ children, className = "" }) => {
 
 const Word = ({ children, progress, range }) => {
   const opacity = useTransform(progress, range, [0, 1]);
+  
+  // If the child is a React element (like our <span className="text-amber-500">), 
+  // we render it directly inside the motion.span to preserve its specific styling,
+  // but let framer-motion control its overall opacity reveal.
+  
   return (
     <span className="relative mr-3 mt-3 lg:mr-4 lg:mt-4">
-      {/* Ghost text for layout - select-none to avoid double selection */}
-      <span className="absolute opacity-20 select-none" aria-hidden="true">{children}</span>
-      <motion.span style={{ opacity: opacity }} className="text-black dark:text-white relative">
+      <span className="absolute opacity-10 select-none" aria-hidden="true">{children}</span>
+      <motion.span 
+         style={{ opacity: opacity }} 
+         className="text-stone-900 dark:text-stone-100 relative drop-shadow-sm"
+      >
         {children}
       </motion.span>
     </span>

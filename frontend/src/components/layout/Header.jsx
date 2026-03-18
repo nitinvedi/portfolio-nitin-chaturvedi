@@ -1,66 +1,35 @@
-import { useRef, useState, useEffect } from "react";
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
-import { FiHome, FiUser, FiGrid, FiBriefcase, FiMail, FiMoon, FiSun, FiGithub, FiLinkedin, FiFileText, FiZap, FiCode, FiCheck } from 'react-icons/fi';
-import { SiLeetcode } from "react-icons/si";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiMoon, FiSun } from 'react-icons/fi';
 import { useTheme } from "../../context/ThemeContext";
 
-
-const insights = [
-    { 
-        id: "home", 
-        text: "Architecting scalable digital ecosystems.", 
-        icon: FiZap 
-    },
-    { 
-        id: "about", 
-        text: "Merging complex backend logic with seamless UI/UX.", 
-        icon: FiUser 
-    },
-    { 
-        id: "projects", 
-        text: "Production-ready systems serving real-world users.", 
-        icon: FiCode 
-    },
-    { 
-        id: "experience", 
-        text: "Engineering solutions that drive business growth.", 
-        icon: FiBriefcase 
-    },
-    { 
-        id: "contact", 
-        text: "Let's engineer the future of your product.", 
-        icon: FiMail 
-    },
-];
-
-// --- Cinematic Theme Toggle Component ---
 const ThemeToggle = ({ theme, toggleTheme }) => {
     return (
         <button 
             onClick={toggleTheme}
-            className="relative w-10 h-10 rounded-full flex items-center justify-center overflow-hidden hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+            className="w-8 h-8 flex items-center justify-center hover:opacity-70 transition-opacity"
             aria-label="Toggle Theme"
         >
             <AnimatePresence mode="wait">
                 {theme === 'dark' ? (
                     <motion.div
                         key="moon"
-                        initial={{ rotate: -90, scale: 0 }}
-                        animate={{ rotate: 0, scale: 1 }}
-                        exit={{ rotate: 90, scale: 0 }}
-                        transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
+                        initial={{ opacity: 0, rotate: -90 }}
+                        animate={{ opacity: 1, rotate: 0 }}
+                        exit={{ opacity: 0, rotate: 90 }}
+                        transition={{ duration: 0.3 }}
                     >
-                        <FiMoon className="text-xl text-teal-400 fill-teal-400/20" />
+                        <FiMoon className="text-lg text-stone-100" />
                     </motion.div>
                 ) : (
                     <motion.div
                         key="sun"
-                        initial={{ rotate: 90, scale: 0 }}
-                        animate={{ rotate: 0, scale: 1 }}
-                        exit={{ rotate: -90, scale: 0 }}
-                        transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
+                        initial={{ opacity: 0, rotate: 90 }}
+                        animate={{ opacity: 1, rotate: 0 }}
+                        exit={{ opacity: 0, rotate: -90 }}
+                        transition={{ duration: 0.3 }}
                     >
-                         <FiSun className="text-xl text-amber-500 fill-amber-500/20" />
+                         <FiSun className="text-lg text-stone-900" />
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -69,228 +38,134 @@ const ThemeToggle = ({ theme, toggleTheme }) => {
 };
 
 const Header = () => {
-    let mouseX = useMotionValue(Infinity);
     const { theme, toggleTheme } = useTheme();
-    const [isMobile, setIsMobile] = useState(false);
-    
-    // Insight State
-    const [activeInsight, setActiveInsight] = useState(null);
-    const [showInsight, setShowInsight] = useState(false);
-    
-    // Refs for stability
-    const activeInsightRef = useRef(null);
-    const timerRef = useRef(null);
+    const [scrolled, setScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768);
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Scroll Detection Logic (Unchanged)
-    useEffect(() => {
-        const observerOptions = {
-            root: null,
-            rootMargin: "-45% 0px -45% 0px", // Trigger when section is near middle
-            threshold: 0
-        };
-
-        const observerCallback = (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const sectionId = entry.target.id;
-                    const insight = insights.find(i => i.id === sectionId);
-                    
-                    if (insight && insight.id !== activeInsightRef.current) {
-                        // Update State & Ref
-                        setActiveInsight(insight.id);
-                        activeInsightRef.current = insight.id;
-                        setShowInsight(true);
-                        
-                        if (timerRef.current) clearTimeout(timerRef.current);
-                        
-                        timerRef.current = setTimeout(() => {
-                            setShowInsight(false);
-                        }, 3500);
-                    }
-                }
-            });
-        };
-
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-        insights.forEach((item) => {
-            const element = document.getElementById(item.id);
-            if (element) observer.observe(element);
-        });
-
-        return () => {
-             observer.disconnect();
-             if (timerRef.current) clearTimeout(timerRef.current);
-        };
-    }, []);
-
-    // Navigation Items & Socials (Unchanged)
     const navItems = [
-        { id: 'home', icon: FiHome, label: 'Home', action: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
-        { id: 'about', icon: FiUser, label: 'About', action: () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }) },
-        { id: 'projects', icon: FiGrid, label: 'Projects', action: () => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }) },
-        { id: 'experience', icon: FiBriefcase, label: 'Experience', action: () => document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' }) },
+        { label: 'WORK', action: () => document.getElementById('project-gallery-heading')?.scrollIntoView({ behavior: 'smooth' }) },
+        { label: 'STACK', action: () => document.getElementById('tech-arsenal-heading')?.scrollIntoView({ behavior: 'smooth' }) },
+        { label: 'GITHUB', href: "https://github.com/nitinvedi" },
+        { label: 'LINKEDIN', href: "https://www.linkedin.com/in/nitinvedi" },
+        { label: 'RESUME', href: "https://drive.usercontent.google.com/download?id=1t7BVlFtCW3vBn4nzrnKf1OGMfpW1wu96&export=download&authuser=0&confirm=t&uuid=0d515bcd-b4b8-4b4b-ba18-8457bc660163&at=AGN2oQ3saf-qIj6q5X11O14cme16:1773686935414" },
     ];
-
-    const socialItems = [
-        { id: 'github', icon: FiGithub, label: 'GitHub', href: "https://github.com/nitinvedi" },
-        { id: 'linkedin', icon: FiLinkedin, label: 'LinkedIn', href: "https://www.linkedin.com/in/nitinvedi" },
-        { id: 'leetcode', icon: SiLeetcode, label: 'LeetCode', href: "https://leetcode.com/u/chaturvedinitin/" },
-        { id: 'resume', icon: FiFileText, label: 'Resume', href: "https://docs.google.com/document/d/1_qeKga3bYW3KWQpLs9sC_izgGzSNyWgT/edit?usp=drive_link" },
-    ];
-
-    const currentInsightData = insights.find(i => i.id === activeInsight);
-    
-    // Priority Logic
-    const shouldShowInsight = showInsight && currentInsightData;
-    
-    // Determine content for flipping
-    const isNotifyMode = shouldShowInsight;
-
-    // --- Animation Variants ---
-    const containerVariants = {
-        nav: { boxShadow: "0px 10px 30px -10px rgba(0,0,0,0.1)" },
-        notify: { boxShadow: "0px 10px 30px -10px rgba(0,0,0,0.1)" } 
-    };
-
-    // Slide Animation for Content
-    const contentVariants = {
-        hidden: { y: 20, opacity: 0, filter: "blur(4px)" },
-        visible: { y: 0, opacity: 1, filter: "blur(0px)" },
-        exit: { y: -20, opacity: 0, filter: "blur(4px)" }
-    };
 
     return (
-        <div className="fixed top-6 left-0 w-full flex justify-center z-50 pointer-events-none px-4">
-            <motion.div
-                // Fixed Layout - No morphing size
-                variants={containerVariants}
-                animate={isNotifyMode ? "notify" : "nav"}
-                transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                onMouseMove={(e) => !isMobile && !isNotifyMode && mouseX.set(e.pageX)}
-                onMouseLeave={() => !isMobile && mouseX.set(Infinity)}
-                className={`pointer-events-auto relative flex items-center justify-center rounded-full 
-                            bg-white/60 dark:bg-black/60 backdrop-blur-md border border-white/20 dark:border-white/10
-                            shadow-lg overflow-hidden px-4 py-2 w-auto min-w-[340px] h-[54px]`} // Fixed Dimensions
-            >
-                <AnimatePresence mode="wait"> 
-                    {shouldShowInsight ? (
-                         <motion.div
-                            key="insight"
-                            variants={contentVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                             transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="flex items-center gap-3 whitespace-nowrap text-stone-800 dark:text-stone-200"
-                        >
-                             <span className="p-1 rounded-full bg-teal-500/20 text-teal-600 dark:text-teal-400">
-                                <currentInsightData.icon />
-                            </span>
-                            <span className="font-medium text-sm">{currentInsightData.text}</span>
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                             key="nav"
-                             variants={contentVariants}
-                             initial="hidden"
-                             animate="visible"
-                             exit="exit"
-                             transition={{ duration: 0.3, ease: "easeInOut" }}
-                             className="flex items-center gap-2 sm:gap-1"
-                        >
-                            {/* Internal Nav */}
-                            {navItems.map((item) => (
-                                <DockIcon key={item.id} mouseX={mouseX} label={item.label} onClick={item.action} isMobile={isMobile}>
-                                    <item.icon className="text-xl" />
-                                </DockIcon>
+        <header 
+            className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b ${
+                scrolled 
+                ? 'bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md border-stone-200 dark:border-white/5 py-4' 
+                : 'bg-transparent border-transparent py-6'
+            }`}
+        >
+            <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+                
+                {/* Logo / Masthead Title */}
+                <div 
+                    className="flex flex-col cursor-pointer group"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                >
+                    <span className="font-display font-black text-xl leading-none text-stone-900 dark:text-stone-100 tracking-tighter">
+                        NITIN<span className="text-amber-500">.</span>
+                    </span>
+                    <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-stone-500 dark:text-stone-500 group-hover:text-stone-900 dark:group-hover:text-stone-300 transition-colors">
+                        Engineer
+                    </span>
+                </div>
+
+                {/* Desktop Navigation */}
+                <nav className="hidden md:flex items-center gap-8">
+                    {navItems.map((item, idx) => (
+                        item.href ? (
+                            <a 
+                                key={idx} 
+                                href={item.href} 
+                                target="_blank" 
+                                rel="noreferrer"
+                                className="text-xs font-semibold tracking-[0.15em] text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors relative group"
+                            >
+                                {item.label}
+                                <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-amber-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                            </a>
+                        ) : (
+                            <button 
+                                key={idx} 
+                                onClick={item.action}
+                                className="text-xs font-semibold tracking-[0.15em] text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors relative group"
+                            >
+                                {item.label}
+                                <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-amber-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                            </button>
+                        )
+                    ))}
+                    
+                    {/* Divider */}
+                    <div className="w-px h-4 bg-stone-300 dark:bg-stone-700"></div>
+                    
+                    <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+                </nav>
+
+                {/* Mobile Menu Button */}
+                <div className="flex md:hidden items-center gap-4">
+                    <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+                    <button 
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className="text-xs font-semibold tracking-widest text-stone-800 dark:text-stone-200 uppercase"
+                    >
+                        {mobileMenuOpen ? 'CLOSE' : 'MENU'}
+                    </button>
+                </div>
+            </div>
+
+            {/* Mobile Dropdown */}
+            <AnimatePresence>
+                {mobileMenuOpen && (
+                    <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="md:hidden bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl border-b border-stone-200 dark:border-white/5 overflow-hidden"
+                    >
+                        <div className="flex flex-col px-6 py-8 gap-6">
+                            {navItems.map((item, idx) => (
+                                item.href ? (
+                                    <a 
+                                        key={idx} 
+                                        href={item.href} 
+                                        target="_blank" 
+                                        rel="noreferrer"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="text-lg font-display font-bold tracking-tight text-stone-800 dark:text-stone-200"
+                                    >
+                                        {item.label}
+                                    </a>
+                                ) : (
+                                    <button 
+                                        key={idx} 
+                                        onClick={() => {
+                                            item.action();
+                                            setMobileMenuOpen(false);
+                                        }}
+                                        className="text-left text-lg font-display font-bold tracking-tight text-stone-800 dark:text-stone-200"
+                                    >
+                                        {item.label}
+                                    </button>
+                                )
                             ))}
-            
-                            {/* Divider */}
-                            <div className="h-6 w-px bg-stone-300 dark:bg-stone-700 mx-2 opacity-30" />
-            
-                            {/* Socials */}
-                            {socialItems.map((item) => (
-                                <DockIcon key={item.id} mouseX={mouseX} label={item.label} href={item.href} isMobile={isMobile}>
-                                    <item.icon className="text-xl" />
-                                </DockIcon>
-                            ))}
-            
-                            {/* Divider */}
-                            <div className="h-6 w-px bg-stone-300 dark:bg-stone-700 mx-2 opacity-30" />
-            
-                            {/* 5. Cinematic Theme Toggle */}
-                            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </motion.div>
-        </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </header>
     );
 };
-
-// 3. Magnetic Nav Links (Enhanced Physics)
-function DockIcon({ mouseX, children, href, onClick, label, isMobile }) {
-    let ref = useRef(null);
-    const [isHovered, setIsHovered] = useState(false);
-
-    let distance = useTransform(mouseX, (val) => {
-        let bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-        return val - bounds.x - bounds.width / 2;
-    });
-
-    // Stronger Magnification & Spring for "Magnetic" feel
-    let widthSync = useTransform(distance, [-120, 0, 120], [40, 55, 40]);
-    let width = useSpring(widthSync, { mass: 0.1, stiffness: 200, damping: 15 });
-
-    const content = (
-        <motion.div 
-            className="w-full h-full flex items-center justify-center text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
-            whileHover={{ scale: 1.1 }} 
-            whileTap={{ scale: 0.9 }}
-        >
-            {children}
-        </motion.div>
-    );
-
-    return (
-        <motion.div 
-            ref={ref}
-            style={{ width: isMobile ? 40 : width }} 
-            className="aspect-square flex items-center justify-center relative group shrink-0"
-            onClick={onClick}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-        >
-             {/* Hover Glow/Spotlight */}
-             {isHovered && (
-                <motion.div 
-                    layoutId="spotlight"
-                    className="absolute inset-2 bg-stone-200/50 dark:bg-stone-700/50 rounded-full -z-10 blur-sm"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                />
-             )}
-
-            {href ? (
-                <a href={href} target="_blank" rel="noreferrer" className="w-full h-full flex items-center justify-center">
-                    {content}
-                </a>
-            ) : (
-                <button className="w-full h-full flex items-center justify-center">
-                    {content}
-                </button>
-            )}
-        </motion.div>
-    );
-}
 
 export default Header;

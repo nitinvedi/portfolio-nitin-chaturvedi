@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const Preloader = () => {
   const [isLoading, setIsLoading] = useState(true);
