@@ -97,7 +97,7 @@ const Header = () => {
                         NITIN<span className="text-amber-500">.</span>
                     </span>
                     <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-stone-500 dark:text-stone-500 group-hover:text-stone-900 dark:group-hover:text-stone-300 transition-colors">
-                        Engineer
+                        
                     </span>
                 </div>
 
