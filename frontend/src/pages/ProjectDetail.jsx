@@ -34,8 +34,6 @@ const ProjectDetail = () => {
             exit={{ opacity: 0 }}
             className="min-h-screen pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden bg-[#fafaf9] dark:bg-black"
         >
-            <GridBackground />
-            
             <div className="max-w-4xl mx-auto relative z-10">
                 {/* Back Button */}
                 <button 
