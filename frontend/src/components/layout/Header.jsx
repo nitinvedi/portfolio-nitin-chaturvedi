@@ -6,7 +6,7 @@ import MediaReveal from "../common/MediaReveal";
 
 const ThemeToggle = ({ theme, toggleTheme }) => {
     return (
-        <button 
+        <button
             onClick={toggleTheme}
             className="w-8 h-8 flex items-center justify-center hover:opacity-70 transition-opacity"
             aria-label="Toggle Theme"
@@ -30,7 +30,7 @@ const ThemeToggle = ({ theme, toggleTheme }) => {
                         exit={{ opacity: 0, rotate: -90 }}
                         transition={{ duration: 0.3 }}
                     >
-                         <FiSun className="text-lg text-stone-900" />
+                        <FiSun className="text-lg text-stone-900" />
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -57,11 +57,11 @@ const Header = () => {
         } else {
             setHidden(false);
         }
-        
+
         // Dynamic Section Tracking
         const workSection = document.getElementById('project-gallery-heading');
         const stackSection = document.getElementById('tech-arsenal-heading');
-        
+
         if (stackSection && latest > stackSection.offsetTop - 300) {
             setActiveSection("Stack");
         } else if (workSection && latest > workSection.offsetTop - 300) {
@@ -83,11 +83,11 @@ const Header = () => {
                 hour12: false
             }).format(new Date()));
         };
-        
+
         updateTime();
         const interval = setInterval(updateTime, 10000);
         window.addEventListener('scroll', handleScroll);
-        
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
             clearInterval(interval);
@@ -103,19 +103,18 @@ const Header = () => {
 
     return (
         <div className="fixed top-6 left-0 w-full z-50 flex justify-center pointer-events-none px-6">
-            <motion.header 
+            <motion.header
                 variants={{
                     visible: { y: 0, opacity: 1 },
                     hidden: { y: -100, opacity: 0 },
                 }}
                 animate={hidden ? "hidden" : "visible"}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className={`pointer-events-auto flex items-center h-14 px-2 rounded-full border border-stone-200/50 dark:border-white/10 bg-white/60 dark:bg-black/80 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] transition-all duration-500 ${
-                    scrolled ? 'scale-95' : 'scale-100'
-                }`}
+                className={`pointer-events-auto flex items-center h-14 px-2 rounded-full border border-stone-200/50 dark:border-white/10 bg-white/60 dark:bg-black/80 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] transition-all duration-500 ${scrolled ? 'scale-95' : 'scale-100'
+                    }`}
             >
                 {/* Logo & Dynamic Status Indicator */}
-                <div 
+                <div
                     className="flex items-center gap-3 pl-1 pr-3 py-1 rounded-full cursor-pointer group"
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 >
@@ -124,7 +123,7 @@ const Header = () => {
                     </div>
                     <div className="hidden lg:flex flex-col min-w-[60px]">
                         <AnimatePresence mode="wait">
-                            <motion.span 
+                            <motion.span
                                 key={activeSection}
                                 initial={{ y: 5, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
@@ -145,7 +144,7 @@ const Header = () => {
                 <nav className="hidden md:flex items-center gap-1 mx-2 relative">
                     {navItems.map((item, idx) => {
                         const isHovered = hoveredIdx === idx;
-                        
+
                         const NavItem = (
                             <motion.div
                                 key={idx}
@@ -154,9 +153,8 @@ const Header = () => {
                                 whileHover={{ y: -2 }}
                                 className="relative cursor-pointer"
                             >
-                                <div className={`px-4 py-2 text-[10px] font-bold tracking-[0.2em] transition-colors relative z-10 ${
-                                    isHovered ? 'text-stone-900 dark:text-white' : 'text-stone-500 dark:text-stone-400'
-                                }`}>
+                                <div className={`px-4 py-2 text-[10px] font-bold tracking-[0.2em] transition-colors relative z-10 ${isHovered ? 'text-stone-900 dark:text-white' : 'text-stone-500 dark:text-stone-400'
+                                    }`}>
                                     {item.label}
                                 </div>
                             </motion.div>
@@ -194,7 +192,7 @@ const Header = () => {
                                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
                                 className="absolute inset-y-1 bg-stone-100 dark:bg-white/10 rounded-full z-0"
                                 style={{
-                                    left: (hoveredIdx * (100 / navItems.length)) + "%", 
+                                    left: (hoveredIdx * (100 / navItems.length)) + "%",
                                     width: (100 / navItems.length) + "%"
                                 }}
                             />
@@ -208,9 +206,9 @@ const Header = () => {
                 {/* Right Side Controls */}
                 <div className="flex items-center gap-2 pl-2 pr-1">
                     <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-                    
+
                     {/* Minimal CTA with Glow */}
-                    <a 
+                    <a
                         href="mailto:chaturvedinitin.dev@gmail.com"
                         className="hidden sm:flex h-9 px-5 items-center justify-center rounded-full bg-stone-900 dark:bg-white text-white dark:text-stone-900 text-[10px] font-black uppercase tracking-widest hover:shadow-[0_0_15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all"
                     >
@@ -218,7 +216,7 @@ const Header = () => {
                     </a>
 
                     {/* Mobile Menu Trigger */}
-                    <button 
+                    <button
                         onClick={() => setMobileMenuOpen(true)}
                         className="md:hidden w-10 h-10 flex items-center justify-center rounded-full hover:bg-stone-100 dark:hover:bg-white/10 transition-colors"
                     >
@@ -233,7 +231,7 @@ const Header = () => {
             {/* Mobile Full Screen Menu Overlay */}
             <AnimatePresence>
                 {mobileMenuOpen && (
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
@@ -241,14 +239,14 @@ const Header = () => {
                     >
                         <div className="flex justify-between items-center mb-20">
                             <span className="font-display font-black text-2xl tracking-tighter dark:text-white text-stone-900">NITIN<span className="text-amber-500">.</span></span>
-                            <button 
+                            <button
                                 onClick={() => setMobileMenuOpen(false)}
                                 className="w-12 h-12 rounded-full border border-stone-200 dark:border-white/10 flex items-center justify-center text-sm font-bold dark:text-white"
                             >
                                 CLOSE
                             </button>
                         </div>
-                        
+
                         <div className="flex flex-col gap-8">
                             {navItems.map((item, idx) => (
                                 <motion.div
@@ -271,8 +269,8 @@ const Header = () => {
                         </div>
 
                         <div className="mt-auto grid grid-cols-2 gap-4">
-                             <a href="mailto:chaturvedinitin.dev@gmail.com" className="p-6 rounded-3xl bg-amber-500 text-white font-bold text-center">EMAIL ME</a>
-                             <a href="tel:+918115582236" className="p-6 rounded-3xl bg-stone-900 dark:bg-white dark:text-black text-white font-bold text-center">CALL</a>
+                            <a href="mailto:chaturvedinitin.dev@gmail.com" className="p-6 rounded-3xl bg-amber-500 text-white font-bold text-center">EMAIL ME</a>
+                            <a href="tel:+917068072233" className="p-6 rounded-3xl bg-stone-900 dark:bg-white dark:text-black text-white font-bold text-center">CALL</a>
                         </div>
                     </motion.div>
                 )}
