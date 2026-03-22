@@ -28,12 +28,7 @@ const ProjectDetail = () => {
     if (!project) return null;
 
     return (
-        <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="min-h-screen pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden bg-[#fafaf9] dark:bg-black"
-        >
+        <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden bg-[#fafaf9] dark:bg-black">
             <div className="max-w-4xl mx-auto relative z-10">
                 {/* Back Button */}
                 <button 
@@ -166,7 +161,7 @@ const ProjectDetail = () => {
                     </motion.div>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 };
 

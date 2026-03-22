@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { FiArrowUpRight, FiCopy, FiCheck } from "react-icons/fi";
+import TextSplitReveal from "./TextSplitReveal";
 
 const MagneticButton = ({ children, href, onClick }) => {
     const ref = useRef(null);
@@ -66,25 +67,29 @@ const HolographicCTA = () => {
     };
 
     return (
-        <div ref={containerRef} className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden py-32">
+        <div ref={containerRef} className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden py-32 bg-transparent">
             
-            {/* Background Grain/Noise */}
-            <div className="absolute inset-0 bg-stone-50 dark:bg-[#0a0a0a]" />
-            <div className="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+            {/* Soft Local Glow to match site theme */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-amber-500/5 dark:bg-amber-500/[0.03] blur-[150px] rounded-full pointer-events-none z-0" />
             
             <motion.div 
                 style={{ y, opacity }}
                 className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-center text-center"
             >
                 {/* Secondary Title */}
-                <span className="font-mono text-[10px] uppercase tracking-[0.5em] text-stone-400 mb-12">
+                <span className="font-mono text-[10px] uppercase tracking-[0.5em] text-stone-400 dark:text-stone-500 mb-12">
                    Available for Freelance & Collaborative Projects
                 </span>
 
                 {/* Main Headline */}
                 <h2 className="text-[12vw] md:text-[8vw] font-display font-black leading-[0.8] tracking-tighter text-stone-900 dark:text-white uppercase mb-20 select-none">
-                    Let's Build<br />
-                    <span className="text-transparent stroke-text dark:stroke-text-white">Something</span> Real<span className="text-amber-500">.</span>
+                    <TextSplitReveal text="Let's Build" />
+                    <br />
+                    <span className="text-transparent stroke-text dark:stroke-text-white">
+                        <TextSplitReveal text="Something" delay={0.4} />
+                    </span> 
+                    <TextSplitReveal text="Real" delay={0.6} />
+                    <span className="text-amber-500">.</span>
                 </h2>
 
                 {/* The Magnetic Vortex */}
@@ -115,9 +120,9 @@ const HolographicCTA = () => {
                 </div>
             </motion.div>
 
-            {/* Aesthetic Background Accents */}
-            <div className="absolute bottom-0 left-0 w-full h-px bg-stone-200 dark:bg-white/10" />
-            <div className="absolute top-0 right-[20%] w-px h-[20%] bg-stone-200 dark:bg-white/10 hidden md:block" />
+            {/* Subtle Aesthetic Accents */}
+            <div className="absolute bottom-0 left-0 w-full h-px bg-stone-200/30 dark:bg-white/5" />
+            <div className="absolute top-0 right-[20%] w-px h-[20%] bg-stone-200/30 dark:bg-white/5 hidden md:block" />
         </div>
     );
 };

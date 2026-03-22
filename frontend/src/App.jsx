@@ -8,7 +8,6 @@ import Education from './pages/Education.jsx'
 import MainLayout from './layouts/MainLayout.jsx'
 import { ThemeProvider } from './context/ThemeContext';
 
-import CustomCursor from './components/common/CustomCursor';
 import GrainOverlay from './components/common/GrainOverlay';
 import CommandPalette from './components/common/CommandPalette';
 
@@ -18,7 +17,6 @@ function App() {
     <ThemeProvider>
       <GrainOverlay />
       <CommandPalette />
-      <CustomCursor />
       <Router>
           <Routes>
             <Route element={<MainLayout />}>

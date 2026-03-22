@@ -11,6 +11,7 @@ import BentoGrid from '../components/specific/BentoGrid';
 import TextReveal from '../components/common/TextReveal';
 import ProjectGallery from '../components/specific/ProjectGallery';
 import MediaReveal from '../components/common/MediaReveal';
+import TextSplitReveal from '../components/common/TextSplitReveal';
 import HolographicCTA from '../components/common/HolographicCTA';
 import VisitorCounter from '../components/common/VisitorCounter';
 import GridBackground from '../components/common/GridBackground';
@@ -76,10 +77,10 @@ const Home = () => {
             {/* Central Elegant Typography */}
             <div className="flex flex-col items-center text-center w-full max-w-6xl mx-auto gap-4 sm:gap-6">
               <h1 className="text-7xl sm:text-[8rem] md:text-[10rem] lg:text-[13rem] leading-[0.8] tracking-tighter font-display font-medium text-stone-900 dark:text-stone-100 flex items-center justify-center gap-2 sm:gap-4 lowercase">
-                <span>nitin</span>
+                <TextSplitReveal text="nitin" delay={0.5} stagger={0.05} />
               </h1>
               <h1 className="text-7xl sm:text-[8rem] md:text-[10rem] lg:text-[13rem] leading-[0.8] tracking-tighter font-display font-medium text-stone-900 dark:text-stone-100 italic font-light lowercase">
-                chaturvedi
+                <TextSplitReveal text="chaturvedi" delay={0.8} stagger={0.05} />
               </h1>
               
               <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 border-t border-stone-200 dark:border-white/10 pt-12">
@@ -128,12 +129,27 @@ const Home = () => {
                       </h3>
                  </div>
                  
-                 {/* Right Column: Paragraph */}
+                 {/* Right Column: Paragraph with interactive keywords */}
                  <div className="w-full md:w-2/3">
                       <p className="text-xl sm:text-2xl lg:text-3xl text-stone-600 dark:text-stone-400 font-serif leading-relaxed font-light">
-                           I engineer <span className="text-stone-900 dark:text-stone-100 italic font-normal">high-performance architecture</span> where algorithmic efficiency meets business reality. 
-                           With a proven track record of solving <span className="text-stone-900 dark:text-stone-100 italic font-normal">500+ complex algorithms</span> and a top-tier global ranking, 
-                           I don't just write code—I build <span className="text-stone-900 dark:text-stone-100 italic font-normal border-b border-amber-500/30">sub-10ms systems</span> that scale, perform, and drive actual revenue.
+                           I engineer 
+                           <span className="text-stone-900 dark:text-stone-100 italic font-normal hover:text-amber-500 transition-colors mx-2 cursor-help relative group">
+                               high-performance architecture
+                               <span className="absolute -bottom-1 left-0 w-0 h-px bg-amber-500 group-hover:w-full transition-all duration-500"></span>
+                           </span> 
+                           where algorithmic efficiency meets business reality. 
+                           With a proven track record of solving 
+                           <span className="text-stone-900 dark:text-stone-100 italic font-normal hover:text-amber-500 transition-colors mx-2 cursor-help relative group">
+                               500+ complex algorithms
+                               <span className="absolute -bottom-1 left-0 w-0 h-px bg-amber-500 group-hover:w-full transition-all duration-500"></span>
+                           </span>
+                           and a top-tier global ranking, 
+                           I don't just write code—I build 
+                           <span className="text-stone-900 dark:text-stone-100 italic font-normal border-b border-amber-500/30 hover:text-amber-500 transition-colors mx-2 cursor-help relative group">
+                               sub-10ms systems
+                               <span className="absolute -bottom-1 left-0 w-0 h-px bg-amber-500 group-hover:w-full transition-all duration-500"></span>
+                           </span>
+                           that scale, perform, and drive actual revenue.
                       </p>
                  </div>
             </div>
@@ -148,94 +164,86 @@ const Home = () => {
                <ProjectGallery />
           </div>
 
-          {/* Experience & Achievements (New Section) */}
-          <motion.div variants={containerVariants} id="experience-timeline" className="grid grid-cols-1 lg:grid-cols-2 gap-20 max-w-7xl mx-auto px-4 sm:px-6 w-full mb-32">
+          {/* Experience Section */}
+          <motion.div variants={containerVariants} id="experience" className="max-w-7xl mx-auto px-4 sm:px-6 w-full mb-32">
+              <div className="mb-16">
+                   <h2 className="text-sm font-mono text-stone-500 uppercase tracking-widest mb-4">
+                        [ Career ]
+                   </h2>
+                   <h3 className="text-4xl md:text-5xl font-display text-stone-900 dark:text-stone-100 font-medium tracking-tight">
+                        <TextSplitReveal text="Experience." />
+                   </h3>
+              </div>
               
-              {/* Experience Timeline */}
-              <div>
-                  <div className="mb-16">
-                       <h2 className="text-sm font-mono text-stone-500 uppercase tracking-widest mb-4">
-                            [ Career ]
-                       </h2>
-                       <h3 className="text-4xl md:text-5xl font-display text-stone-900 dark:text-stone-100 font-medium tracking-tight">
-                            Experience.
-                       </h3>
-                  </div>
-                  
-                  <div className="relative pl-8 md:pl-0 border-l md:border-l-0 border-stone-200 dark:border-stone-800 flex flex-col gap-16">
-                      
-                      {/* Timeline Node 1 */}
-                      <motion.div 
-                          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-                          className="relative flex flex-col md:flex-row gap-4 md:gap-8 group"
-                      >
-                           {/* Glow Dot for Mobile Setup */}
-                           <div className="md:hidden absolute -left-[37px] top-1.5 w-3 h-3 rounded-full bg-stone-200 dark:bg-stone-800 border-2 border-white dark:border-[#0a0a0a] group-hover:bg-amber-500 transition-colors"></div>
-                           
-                           <div className="w-full md:w-1/4 pt-1">
-                               <span className="text-xs md:text-sm font-mono text-stone-400 dark:text-stone-500 block mb-2 md:mb-0">Nov '25 &mdash; Dec '25</span>
-                           </div>
-                           
-                           <div className="w-full md:w-3/4 md:border-b border-stone-200 dark:border-stone-800 pb-8 cursor-default">
-                               <h3 className="text-2xl font-display text-stone-900 dark:text-stone-100 group-hover:text-amber-500 transition-colors mb-2">Freelance Software Developer</h3>
-                               <p className="text-stone-500 dark:text-stone-400 font-mono text-xs uppercase tracking-[0.2em] mb-4">Ram Mobiles</p>
-                               <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm group-hover:text-stone-900 dark:group-hover:text-stone-300 transition-colors">
-                                   Architected a full-stack e-commerce platform with React, Node.js, and MongoDB. 
-                                   Implemented inventory logic that reduced order errors and generated <span className="text-stone-900 dark:text-stone-100 font-medium border-b border-amber-500/30">~₹6,000 revenue</span>.
-                               </p>
-                           </div>
-                      </motion.div>
+              <div className="relative pl-8 md:pl-0 border-l md:border-l-0 border-stone-200 dark:border-stone-800 flex flex-col gap-12">
+                  <motion.div 
+                      initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+                      className="relative flex flex-col md:flex-row gap-4 md:gap-8 group"
+                  >
+                       <div className="md:hidden absolute -left-[37px] top-1.5 w-3 h-3 rounded-full bg-stone-200 dark:bg-stone-800 border-2 border-white dark:border-[#0a0a0a] group-hover:bg-amber-500 transition-colors"></div>
+                       <div className="w-full md:w-1/4 pt-1">
+                           <span className="text-xs md:text-sm font-mono text-stone-400 dark:text-stone-500 block mb-2 md:mb-0">Nov '25 &mdash; Dec '25</span>
+                       </div>
+                       <div className="w-full md:w-3/4 md:border-b border-stone-200 dark:border-stone-800 pb-12 cursor-default">
+                           <h3 className="text-2xl font-display text-stone-900 dark:text-stone-100 group-hover:text-amber-500 transition-colors mb-2">Freelance Software Developer</h3>
+                           <p className="text-stone-500 dark:text-stone-400 font-mono text-xs uppercase tracking-[0.2em] mb-4">Ram Mobiles</p>
+                           <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm group-hover:text-stone-900 dark:group-hover:text-stone-300 transition-colors max-w-2xl">
+                               Architected a full-stack e-commerce platform with React, Node.js, and MongoDB. 
+                               Implemented inventory logic that reduced order errors and generated <span className="text-stone-900 dark:text-stone-100 font-medium border-b border-amber-500/30">~₹6,000 revenue</span>.
+                           </p>
+                       </div>
+                  </motion.div>
 
-                      {/* Timeline Node 2 */}
-                      <motion.div 
-                          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
-                          className="relative flex flex-col md:flex-row gap-4 md:gap-8 group"
-                      >
-                           <div className="md:hidden absolute -left-[37px] top-1.5 w-3 h-3 rounded-full bg-stone-200 dark:bg-stone-800 border-2 border-white dark:border-[#0a0a0a] group-hover:bg-amber-500 transition-colors"></div>
-                           
-                           <div className="w-full md:w-1/4 pt-1">
-                               <span className="text-xs md:text-sm font-mono text-stone-400 dark:text-stone-500 block mb-2 md:mb-0">Jun '25 &mdash; Jul '25</span>
-                           </div>
-                           
-                           <div className="w-full md:w-3/4 md:border-b border-stone-200 dark:border-stone-800 pb-8 cursor-default">
-                               <h3 className="text-2xl font-display text-stone-900 dark:text-stone-100 group-hover:text-amber-500 transition-colors mb-2">Full Stack Trainee (MERN)</h3>
-                               <p className="text-stone-500 dark:text-stone-400 font-mono text-xs uppercase tracking-[0.2em] mb-4">Cipher Schools</p>
-                               <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm group-hover:text-stone-900 dark:group-hover:text-stone-300 transition-colors">
-                                   Built functionality for an Online Library Management System using modular backend architecture.
-                               </p>
-                           </div>
-                      </motion.div>
-                  </div>
+                  <motion.div 
+                      initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
+                      className="relative flex flex-col md:flex-row gap-4 md:gap-8 group"
+                  >
+                       <div className="md:hidden absolute -left-[37px] top-1.5 w-3 h-3 rounded-full bg-stone-200 dark:bg-stone-800 border-2 border-white dark:border-[#0a0a0a] group-hover:bg-amber-500 transition-colors"></div>
+                       <div className="w-full md:w-1/4 pt-1">
+                           <span className="text-xs md:text-sm font-mono text-stone-400 dark:text-stone-500 block mb-2 md:mb-0">Jun '25 &mdash; Jul '25</span>
+                       </div>
+                       <div className="w-full md:w-3/4 md:border-b border-stone-200 dark:border-stone-800 pb-12 cursor-default">
+                           <h3 className="text-2xl font-display text-stone-900 dark:text-stone-100 group-hover:text-amber-500 transition-colors mb-2">Full Stack Trainee (MERN)</h3>
+                           <p className="text-stone-500 dark:text-stone-400 font-mono text-xs uppercase tracking-[0.2em] mb-4">Cipher Schools</p>
+                           <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm group-hover:text-stone-900 dark:group-hover:text-stone-300 transition-colors max-w-2xl">
+                               Built functionality for an Online Library Management System using modular backend architecture.
+                           </p>
+                       </div>
+                  </motion.div>
+              </div>
+          </motion.div>
+
+          {/* Achievements Section */}
+          <motion.div variants={containerVariants} id="achievements" className="max-w-7xl mx-auto px-4 sm:px-6 w-full mb-32">
+              <div className="mb-16">
+                   <h2 className="text-sm font-mono text-stone-500 uppercase tracking-widest mb-4">
+                        [ Milestones ]
+                   </h2>
+                   <h3 className="text-4xl md:text-5xl font-display text-stone-900 dark:text-stone-100 font-medium tracking-tight">
+                        <TextSplitReveal text="Achievements." />
+                   </h3>
               </div>
 
-              {/* Achievements Column */}
-              <div>
-                  <div className="mb-16">
-                       <h2 className="text-sm font-mono text-stone-500 uppercase tracking-widest mb-4">
-                            [ Milestones ]
-                       </h2>
-                       <h3 className="text-4xl md:text-5xl font-display text-stone-900 dark:text-stone-100 font-medium tracking-tight">
-                            Achievements.
-                       </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 border-t border-stone-200 dark:border-stone-800">
+                  <div className="group flex flex-col py-10 border-b border-stone-200 dark:border-stone-800 cursor-default hover:bg-stone-50/50 dark:hover:bg-white/[0.02] px-6 transition-colors border-r md:border-r border-stone-200 dark:border-stone-800">
+                      <span className="text-stone-400 font-mono text-[10px] mb-4 uppercase tracking-[0.2em]">01 / Competitive</span>
+                      <h4 className="font-display text-stone-900 dark:text-stone-100 text-2xl mb-4 group-hover:text-amber-500 transition-colors">DSA Excellence</h4>
+                      <p className="text-stone-500 text-sm leading-relaxed">Solved <span className="text-stone-800 dark:text-stone-300 font-bold">500+ problems</span> across LeetCode & Coding Ninjas with algorithmic efficiency.</p>
                   </div>
-
-                  <div className="flex flex-col border-t border-stone-200 dark:border-stone-800">
-                      <div className="group flex flex-col py-8 border-b border-stone-200 dark:border-stone-800 cursor-default hover:bg-stone-50/50 dark:hover:bg-white/[0.02] px-4 -mx-4 transition-colors">
-                          <h4 className="font-display text-stone-900 dark:text-stone-100 text-2xl mb-2 group-hover:text-amber-500 transition-colors">DSA Excellence</h4>
-                          <p className="text-stone-500 text-sm">Solved <span className="text-stone-800 dark:text-stone-300">500+ problems</span> across LeetCode & Coding Ninjas.</p>
-                      </div>
-                      <div className="group flex flex-col py-8 border-b border-stone-200 dark:border-stone-800 cursor-default hover:bg-stone-50/50 dark:hover:bg-white/[0.02] px-4 -mx-4 transition-colors">
-                          <h4 className="font-display text-stone-900 dark:text-stone-100 text-2xl mb-2 group-hover:text-amber-500 transition-colors">LeetCode Recognition</h4>
-                          <p className="text-stone-500 text-sm">Achieved a peak contest rating of <span className="text-stone-800 dark:text-stone-300 font-mono">1522</span>.</p>
-                      </div>
-                      <div className="group flex flex-col py-8 border-b border-stone-200 dark:border-stone-800 cursor-default hover:bg-stone-50/50 dark:hover:bg-white/[0.02] px-4 -mx-4 transition-colors">
-                          <h4 className="font-display text-stone-900 dark:text-stone-100 text-2xl mb-2 group-hover:text-amber-500 transition-colors">High Global Rank</h4>
-                          <p className="text-stone-500 text-sm">Secured Global Rank <span className="text-stone-800 dark:text-stone-300 font-mono">3,721</span> in LeetCode Weekly Contest 488.</p>
-                      </div>
-                      <div className="group flex flex-col py-8 border-b border-stone-200 dark:border-stone-800 cursor-default hover:bg-stone-50/50 dark:hover:bg-white/[0.02] px-4 -mx-4 transition-colors">
-                          <h4 className="font-display text-stone-900 dark:text-stone-100 text-2xl mb-2 group-hover:text-amber-500 transition-colors">Hackathon Finalist</h4>
-                          <p className="text-stone-500 text-sm">Coding Ninjas Binary Bitz National Hackathon (Feb '24).</p>
-                      </div>
+                  <div className="group flex flex-col py-10 border-b border-stone-200 dark:border-stone-800 cursor-default hover:bg-stone-50/50 dark:hover:bg-white/[0.02] px-6 transition-colors">
+                      <span className="text-stone-400 font-mono text-[10px] mb-4 uppercase tracking-[0.2em]">02 / Rating</span>
+                      <h4 className="font-display text-stone-900 dark:text-stone-100 text-2xl mb-4 group-hover:text-amber-500 transition-colors">LeetCode Recognition</h4>
+                      <p className="text-stone-500 text-sm leading-relaxed">Achieved a peak contest rating of <span className="text-stone-800 dark:text-stone-300 font-mono font-bold">1522</span>, placing in top percentiles.</p>
+                  </div>
+                  <div className="group flex flex-col py-10 border-b border-stone-200 dark:border-stone-800 cursor-default hover:bg-stone-50/50 dark:hover:bg-white/[0.02] px-6 transition-colors border-r md:border-r border-stone-200 dark:border-stone-800">
+                      <span className="text-stone-400 font-mono text-[10px] mb-4 uppercase tracking-[0.2em]">03 / Global</span>
+                      <h4 className="font-display text-stone-900 dark:text-stone-100 text-2xl mb-4 group-hover:text-amber-500 transition-colors">High Global Rank</h4>
+                      <p className="text-stone-500 text-sm leading-relaxed">Secured Global Rank <span className="text-stone-800 dark:text-stone-300 font-mono font-bold">3,721</span> in LeetCode Weekly Contest 488.</p>
+                  </div>
+                  <div className="group flex flex-col py-10 border-b border-stone-200 dark:border-stone-800 cursor-default hover:bg-stone-50/50 dark:hover:bg-white/[0.02] px-6 transition-colors">
+                      <span className="text-stone-400 font-mono text-[10px] mb-4 uppercase tracking-[0.2em]">04 / Innovation</span>
+                      <h4 className="font-display text-stone-900 dark:text-stone-100 text-2xl mb-4 group-hover:text-amber-500 transition-colors">Hackathon Finalist</h4>
+                      <p className="text-stone-500 text-sm leading-relaxed">Coding Ninjas Binary Bitz National Hackathon (Feb '24), focusing on real-world problem solving.</p>
                   </div>
               </div>
           </motion.div>
@@ -248,7 +256,7 @@ const Home = () => {
                             [ Continuous Learning ]
                         </h2>
                         <h3 className="text-4xl md:text-5xl lg:text-6xl font-display text-stone-900 dark:text-stone-100 font-medium tracking-tight">
-                            Certifications.
+                            <TextSplitReveal text="Certifications." />
                         </h3>
                    </div>
               </div>
