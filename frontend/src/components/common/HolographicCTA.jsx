@@ -1,52 +1,125 @@
-import React, { useState } from "react";
-import { FiMail, FiCopy, FiArrowRight, FiCheck } from "react-icons/fi";
+import React, { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { FiArrowUpRight, FiCopy, FiCheck } from "react-icons/fi";
+
+const MagneticButton = ({ children, href, onClick }) => {
+    const ref = useRef(null);
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    const springX = useSpring(x, { stiffness: 150, damping: 15 });
+    const springY = useSpring(y, { stiffness: 150, damping: 15 });
+
+    const handleMouseMove = (e) => {
+        const { clientX, clientY } = e;
+        const { left, top, width, height } = ref.current.getBoundingClientRect();
+        const center = { x: left + width / 2, y: top + height / 2 };
+        x.set((clientX - center.x) * 0.4);
+        y.set((clientY - center.y) * 0.4);
+    };
+
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
+    };
+
+    const content = (
+        <motion.div
+            ref={ref}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ x: springX, y: springY }}
+            className="w-48 h-48 md:w-64 md:h-64 bg-stone-900 dark:bg-white rounded-full flex flex-col items-center justify-center group cursor-pointer relative"
+        >
+            <div className="absolute inset-0 bg-stone-800 dark:bg-stone-200 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 ease-out" />
+            <div className="relative z-10 flex flex-col items-center text-white dark:text-stone-900">
+                <span className="text-3xl md:text-4xl">
+                   <FiArrowUpRight />
+                </span>
+                <span className="mt-2 text-xs font-black uppercase tracking-[0.2em]">Contact</span>
+            </div>
+        </motion.div>
+    );
+
+    return href ? (
+        <a href={href} target="_blank" rel="noreferrer">{content}</a>
+    ) : (
+        <button onClick={onClick}>{content}</button>
+    );
+};
 
 const HolographicCTA = () => {
-  const [copied, setCopied] = useState(false);
+    const containerRef = useRef(null);
+    const [copied, setCopied] = useState(false);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
 
-  const handleCopy = (e) => {
-      e.stopPropagation();
-      navigator.clipboard.writeText("chaturvediinitin@gmail.com");
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-  };
+    const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
-  return (
-    <div className="relative w-full py-32 flex flex-col items-center justify-center border-y border-stone-200 dark:border-[#1a1a1a] bg-stone-50 dark:bg-[#0c0c0c] mt-20">
-        
-        {/* Subtle Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] bg-[radial-gradient(#000_1px,transparent_1px)] dark:bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    const handleCopy = (e) => {
+        e.stopPropagation();
+        navigator.clipboard.writeText("chaturvediinitin@gmail.com");
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
 
-        <div className="relative z-10 flex flex-col items-center text-center max-w-2xl px-4">
-            <span className="text-xs font-bold tracking-widest uppercase text-stone-400 mb-6">Next Steps</span>
+    return (
+        <div ref={containerRef} className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden py-32">
             
-            <h2 className="text-5xl sm:text-7xl font-bold font-display text-stone-900 dark:text-stone-100 mb-6 tracking-tighter">
-                Let's build something <span className="italic font-serif font-light text-stone-500">real.</span>
-            </h2>
+            {/* Background Grain/Noise */}
+            <div className="absolute inset-0 bg-stone-50 dark:bg-[#0a0a0a]" />
+            <div className="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
             
-            <p className="text-lg text-stone-500 dark:text-stone-400 mb-10 max-w-xl mx-auto">
-                Whether you need a full-stack web application from scratch or want to scale an existing system, I'm available for freelance work.
-            </p>
+            <motion.div 
+                style={{ y, opacity }}
+                className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-center text-center"
+            >
+                {/* Secondary Title */}
+                <span className="font-mono text-[10px] uppercase tracking-[0.5em] text-stone-400 mb-12">
+                   Available for Freelance & Collaborative Projects
+                </span>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-                <a 
-                    href="mailto:chaturvediinitin@gmail.com"
-                    className="w-full sm:w-auto px-8 py-4 rounded-full bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 font-semibold flex items-center justify-center gap-2 hover:bg-stone-800 dark:hover:bg-white transition-colors"
-                >
-                    Start a conversation <FiArrowRight />
-                </a>
-                
-                <button 
-                    onClick={handleCopy}
-                    className="w-full sm:w-auto px-6 py-4 rounded-full bg-white dark:bg-[#111111] border border-stone-200 dark:border-[#2a2a2a] text-stone-600 dark:text-stone-300 font-medium flex items-center justify-center gap-2 hover:bg-stone-50 dark:hover:bg-[#161616] transition-colors"
-                >
-                    {copied ? <FiCheck className="text-emerald-500" /> : <FiCopy />}
-                    {copied ? "Copied" : "Copy Email"}
-                </button>
-            </div>
+                {/* Main Headline */}
+                <h2 className="text-[12vw] md:text-[8vw] font-display font-black leading-[0.8] tracking-tighter text-stone-900 dark:text-white uppercase mb-20 select-none">
+                    Let's Build<br />
+                    <span className="text-transparent stroke-text dark:stroke-text-white">Something</span> Real<span className="text-amber-500">.</span>
+                </h2>
+
+                {/* The Magnetic Vortex */}
+                <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 w-full">
+                    <div className="order-2 md:order-1 flex flex-col items-center md:items-start text-center md:text-left max-w-xs">
+                        <p className="text-stone-500 dark:text-stone-400 text-sm leading-relaxed mb-8">
+                            High-performance design systems, architectural efficiency, and scalable engineering. Let’s turn your vision into production-ready software.
+                        </p>
+                        <button 
+                            onClick={handleCopy}
+                            className="group flex items-center gap-4 text-xs font-black uppercase tracking-widest text-stone-900 dark:text-white hover:italic transition-all"
+                        >
+                            {copied ? (
+                                <span className="flex items-center gap-2 text-emerald-500">
+                                    <FiCheck /> COPIED
+                                </span>
+                            ) : (
+                                <span className="flex items-center gap-2">
+                                    <FiCopy /> COPY EMAIL
+                                </span>
+                            )}
+                        </button>
+                    </div>
+
+                    <div className="order-1 md:order-2">
+                        <MagneticButton href="mailto:chaturvediinitin@gmail.com" />
+                    </div>
+                </div>
+            </motion.div>
+
+            {/* Aesthetic Background Accents */}
+            <div className="absolute bottom-0 left-0 w-full h-px bg-stone-200 dark:bg-white/10" />
+            <div className="absolute top-0 right-[20%] w-px h-[20%] bg-stone-200 dark:bg-white/10 hidden md:block" />
         </div>
-    </div>
-  );
+    );
 };
 
 export default HolographicCTA;

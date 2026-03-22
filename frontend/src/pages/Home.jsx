@@ -10,6 +10,7 @@ import Magnetic from '../components/common/Magnetic';
 import BentoGrid from '../components/specific/BentoGrid';
 import TextReveal from '../components/common/TextReveal';
 import ProjectGallery from '../components/specific/ProjectGallery';
+import MediaReveal from '../components/common/MediaReveal';
 import HolographicCTA from '../components/common/HolographicCTA';
 import VisitorCounter from '../components/common/VisitorCounter';
 import GridBackground from '../components/common/GridBackground';
@@ -252,30 +253,47 @@ const Home = () => {
                    </div>
               </div>
               <div className="flex flex-col border-b border-stone-200 dark:border-white/10">
-                  <div className="group flex flex-col sm:flex-row sm:items-center justify-between py-8 border-t border-stone-200 dark:border-white/10 relative transition-colors hover:bg-stone-50/50 dark:hover:bg-white/[0.02] cursor-default px-4 -mx-4 sm:px-0 sm:mx-0">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-12 relative z-10">
-                          <span className="font-mono text-xs text-stone-400 dark:text-stone-500">01</span>
-                          <h4 className="text-2xl sm:text-3xl font-display text-stone-900 dark:text-stone-300 group-hover:text-amber-500 dark:group-hover:text-white transition-colors duration-300">
-                              Cloud Computing
-                          </h4>
-                      </div>
-                      <div className="flex items-center gap-8 mt-4 sm:mt-0 relative z-10 text-stone-500 font-mono text-sm">
-                          <span>NPTEL</span>
-                          <span className="opacity-60">May 2025</span>
-                      </div>
-                  </div>
-                  <div className="group flex flex-col sm:flex-row sm:items-center justify-between py-8 border-t border-stone-200 dark:border-white/10 relative transition-colors hover:bg-stone-50/50 dark:hover:bg-white/[0.02] cursor-default px-4 -mx-4 sm:px-0 sm:mx-0">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-12 relative z-10">
-                          <span className="font-mono text-xs text-stone-400 dark:text-stone-500">02</span>
-                          <h4 className="text-2xl sm:text-3xl font-display text-stone-900 dark:text-stone-300 group-hover:text-amber-500 dark:group-hover:text-white transition-colors duration-300">
-                              Data Structures and Algorithms
-                          </h4>
-                      </div>
-                      <div className="flex items-center gap-8 mt-4 sm:mt-0 relative z-10 text-stone-500 font-mono text-sm">
-                          <span>Cipher Schools</span>
-                          <span className="opacity-60">Dec 2024</span>
-                      </div>
-                  </div>
+                  {/* NPTEL Certificate */}
+                  <MediaReveal mediaSrc="/nptel.png">
+                      <a 
+                        href="https://archive.nptel.ac.in/content/noc/NOC25/SEM1/Ecertificates/106/noc25-cs11/Course/NPTEL25CS11S133730003404243952.pdf" 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="group flex flex-col sm:flex-row sm:items-center justify-between py-10 border-t border-stone-200 dark:border-white/10 relative transition-colors hover:bg-stone-50/50 dark:hover:bg-white/[0.02] cursor-pointer px-4 -mx-4 sm:px-0 sm:mx-0"
+                      >
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-12 relative z-10">
+                              <span className="font-mono text-xs text-stone-400 dark:text-stone-500">01</span>
+                              <h4 className="text-2xl sm:text-3xl font-display text-stone-900 dark:text-stone-300 group-hover:text-amber-500 dark:group-hover:text-white transition-colors duration-300">
+                                  Cloud Computing
+                              </h4>
+                          </div>
+                          <div className="flex items-center gap-8 mt-4 sm:mt-0 relative z-10 text-stone-500 font-mono text-sm group-hover:text-stone-900 dark:group-hover:text-stone-300">
+                              <span>NPTEL</span>
+                              <span className="opacity-60">May 2025</span>
+                          </div>
+                      </a>
+                  </MediaReveal>
+
+                  {/* DSA Certificate */}
+                  <MediaReveal mediaSrc="/dsa.png">
+                      <a 
+                        href="https://cipher-other-assets.s3.ap-south-1.amazonaws.com/certificates/TC_chaturvediinitin%40gmail.com_CS2024-10202" 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="group flex flex-col sm:flex-row sm:items-center justify-between py-10 border-t border-stone-200 dark:border-white/10 relative transition-colors hover:bg-stone-50/50 dark:hover:bg-white/[0.02] cursor-pointer px-4 -mx-4 sm:px-0 sm:mx-0"
+                      >
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-12 relative z-10">
+                              <span className="font-mono text-xs text-stone-400 dark:text-stone-500">02</span>
+                              <h4 className="text-2xl sm:text-3xl font-display text-stone-900 dark:text-stone-300 group-hover:text-amber-500 dark:group-hover:text-white transition-colors duration-300">
+                                  Data Structures and Algorithms
+                              </h4>
+                          </div>
+                          <div className="flex items-center gap-8 mt-4 sm:mt-0 relative z-10 text-stone-500 font-mono text-sm group-hover:text-stone-900 dark:group-hover:text-stone-300">
+                              <span>Cipher Schools</span>
+                              <span className="opacity-60">Dec 2024</span>
+                          </div>
+                      </a>
+                  </MediaReveal>
               </div>
           </motion.div>
 
