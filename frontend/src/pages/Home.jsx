@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FiBriefcase, FiAward, FiBookOpen } from 'react-icons/fi';
 import Logo from '../assets/images.png';
 import Card from '../components/common/Card';
@@ -22,14 +22,7 @@ const Home = () => {
 
   // ... (rest of component logic) ...
 
-  const [emailCopied, setEmailCopied] = useState(false);
 
-  const handleCopyEmail = (e) => {
-    e.preventDefault();
-    navigator.clipboard.writeText("chaturvediinitin@gmail.com");
-    setEmailCopied(true);
-    setTimeout(() => setEmailCopied(false), 2000);
-  };
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -40,6 +33,15 @@ const Home = () => {
         delayChildren: 0.2,
       },
     },
+  };
+
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+    }
   };
 
   return (
@@ -56,63 +58,93 @@ const Home = () => {
 
       <div className="flex flex-col min-h-screen gap-20 pb-20 relative z-10">
           
-          {/* High-End Clean Editorial Hero Section */}
+          {/* Hero Section — fits in one viewport */}
           <motion.section
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="min-h-[85vh] flex flex-col justify-center pt-20 lg:pt-32 relative mb-20 px-4 sm:px-6 z-10"
+            className="h-screen flex flex-col justify-center pt-16 relative px-4 sm:px-6 xl:px-12 z-10"
           >
-            {/* Minimalist Top Status */}
-            <div className="flex justify-center mb-16 sm:mb-24 w-full">
-               <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-stone-200 dark:border-white/10 bg-white/50 dark:bg-black/50 backdrop-blur-md shadow-sm">
-                 <span className="relative flex h-2 w-2">
-                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-500 opacity-75"></span>
-                   <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-                 </span>
-                 <span className="text-xs font-mono font-medium text-stone-600 dark:text-stone-300 uppercase tracking-[0.15em]">Open to new opportunities</span>
-               </div>
-            </div>
+            {/* Two-Column Layout */}
+            <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center lg:items-center justify-between gap-10 lg:gap-20">
 
-            {/* Central Elegant Typography */}
-            <div className="flex flex-col items-center text-center w-full max-w-6xl mx-auto gap-4 sm:gap-6">
-              <h1 className="text-7xl sm:text-[8rem] md:text-[10rem] lg:text-[13rem] leading-[0.8] tracking-tighter font-display font-medium text-stone-900 dark:text-stone-100 flex items-center justify-center gap-2 sm:gap-4 lowercase">
-                <TextSplitReveal text="nitin" delay={0.5} stagger={0.05} />
-              </h1>
-              <h1 className="text-7xl sm:text-[8rem] md:text-[10rem] lg:text-[13rem] leading-[0.8] tracking-tighter font-display font-medium text-stone-900 dark:text-stone-100 italic font-light lowercase">
-                <TextSplitReveal text="chaturvedi" delay={0.8} stagger={0.05} />
-              </h1>
-              
-              <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 border-t border-stone-200 dark:border-white/10 pt-12">
-                 <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-amber-500 to-teal-500 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                    <img 
-                      src={Logo} 
-                      alt="Nitin Chaturvedi" 
-                      className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-white dark:border-stone-800 shadow-2xl transition-transform duration-500 group-hover:scale-105" 
-                    />
-                 </div>
-                 <div className="flex flex-col items-center sm:items-start max-w-lg">
-                    <p className="text-xl sm:text-3xl text-stone-600 dark:text-stone-400 font-serif leading-relaxed font-light">
-                      A full-stack engineer turning complex algorithms into <span className="text-stone-900 dark:text-white italic underline decoration-amber-500/30">refined web experiences.</span>
-                    </p>
-                 </div>
+              {/* LEFT — Name, Status, Tagline */}
+              <div className="flex flex-col items-center lg:items-start gap-6 lg:gap-8 flex-1">
+                {/* Status Pill */}
+                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-stone-200 dark:border-white/10 bg-white/50 dark:bg-black/50 backdrop-blur-md shadow-sm">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                  </span>
+                  <span className="text-xs font-mono font-medium text-stone-600 dark:text-stone-300 uppercase tracking-[0.15em]">Open to new opportunities</span>
+                </div>
+
+                {/* Name */}
+                <h1 className="text-[3.5rem] sm:text-[5rem] md:text-[6rem] lg:text-[5.5rem] xl:text-[7rem] leading-[0.85] tracking-tighter font-display font-medium text-stone-900 dark:text-stone-100 lowercase text-center lg:text-left">
+                  <TextSplitReveal text="nitin" delay={0.4} stagger={0.05} />
+                  <br />
+                  <span className="italic font-light">
+                    <TextSplitReveal text="chaturvedi" delay={0.7} stagger={0.05} />
+                  </span>
+                </h1>
+
+                {/* Tagline */}
+                <p className="text-base sm:text-lg lg:text-xl text-stone-600 dark:text-stone-400 font-serif leading-relaxed font-light max-w-md text-center lg:text-left">
+                  A full-stack engineer turning complex algorithms into{" "}
+                  <span className="text-stone-900 dark:text-white italic underline decoration-amber-500/30">refined web experiences.</span>
+                </p>
+
+                {/* CTA Row */}
+                <div className="flex flex-wrap items-center gap-4">
+                  <a
+                    href="https://drive.usercontent.google.com/download?id=1t7BVlFtCW3vBn4nzrnKf1OGMfpW1wu96&export=download&authuser=0"
+                    download
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-stone-900 dark:bg-white text-white dark:text-stone-900 text-xs font-bold uppercase tracking-widest hover:shadow-[0_0_20px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all duration-300 hover:scale-105"
+                  >
+                    <span>↓</span> Download Resume
+                  </a>
+                  <button
+                    onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-stone-300 dark:border-white/20 text-stone-700 dark:text-stone-300 text-xs font-bold uppercase tracking-widest hover:border-stone-900 dark:hover:border-white transition-all duration-300"
+                  >
+                    View Work →
+                  </button>
+                </div>
+              </div>
+
+              {/* RIGHT — Avatar + info */}
+              <div className="flex flex-col items-center gap-6 shrink-0">
+                {/* Avatar */}
+                <div className="relative group">
+                  <div className="absolute -inset-1.5 bg-gradient-to-r from-amber-500 to-teal-500 rounded-full blur-md opacity-20 group-hover:opacity-40 transition duration-700"></div>
+                  <img
+                    src={Logo}
+                    alt="Nitin Chaturvedi"
+                    className="relative w-40 h-40 sm:w-52 sm:h-52 lg:w-64 lg:h-64 rounded-full object-cover border-2 border-white dark:border-stone-800 shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+
+
               </div>
             </div>
 
             {/* Scroll Indicator */}
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-70 cursor-pointer hover:opacity-100 transition-opacity" onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth'})}>
-               <div className="w-px h-16 bg-gradient-to-b from-stone-400 dark:from-stone-600 to-transparent"></div>
-               <span className="text-[10px] font-mono tracking-widest text-stone-500 uppercase">Scroll</span>
+            <div
+              className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-50 cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+            >
+              <div className="w-px h-12 bg-gradient-to-b from-stone-400 dark:from-stone-600 to-transparent"></div>
+              <span className="text-[10px] font-mono tracking-widest text-stone-500 uppercase">Scroll</span>
             </div>
           </motion.section>
 
+
           <motion.div
             id="about"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1 }}
+            variants={sectionVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-10%" }}
             className="relative w-full max-w-7xl mx-auto"
           >
             <div className="w-px h-24 bg-gradient-to-b from-stone-200 dark:from-stone-800 to-transparent mx-auto mb-20 hidden md:block"></div>
@@ -124,14 +156,14 @@ const Home = () => {
                       <h2 className="text-sm font-mono text-stone-500 uppercase tracking-widest mb-4">
                            [ Philosophy ]
                       </h2>
-                      <h3 className="text-4xl lg:text-5xl font-display text-stone-900 dark:text-stone-100 font-medium tracking-tight leading-tight">
+                       <h3 className="text-5xl lg:text-6xl font-display text-stone-900 dark:text-stone-100 font-bold tracking-tighter leading-[1.1]">
                            Engineering Code,<br/>Driving Revenue.
-                      </h3>
+                       </h3>
                  </div>
                  
                  {/* Right Column: Paragraph with interactive keywords */}
                  <div className="w-full md:w-2/3">
-                      <p className="text-xl sm:text-2xl lg:text-3xl text-stone-600 dark:text-stone-400 font-serif leading-relaxed font-light">
+                       <p className="text-xl sm:text-2xl lg:text-3xl text-stone-600 dark:text-stone-400 font-serif leading-relaxed font-light max-w-[45ch]">
                            I engineer 
                            <span className="text-stone-900 dark:text-stone-100 italic font-normal hover:text-amber-500 transition-colors mx-2 cursor-help relative group">
                                high-performance architecture
@@ -165,12 +197,19 @@ const Home = () => {
           </div>
 
           {/* Experience Section */}
-          <motion.div variants={containerVariants} id="experience" className="max-w-7xl mx-auto px-4 sm:px-6 w-full mb-32">
-              <div className="mb-16">
-                   <h2 className="text-sm font-mono text-stone-500 uppercase tracking-widest mb-4">
+          <motion.div 
+            variants={sectionVariants} 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, margin: "-10%" }}
+            id="experience" 
+            className="max-w-7xl mx-auto px-4 sm:px-6 w-full mb-28"
+          >
+              <div className="mb-14">
+                   <h2 className="text-sm font-mono text-stone-400 uppercase tracking-widest mb-3">
                         [ Career ]
                    </h2>
-                   <h3 className="text-4xl md:text-5xl font-display text-stone-900 dark:text-stone-100 font-medium tracking-tight">
+                   <h3 className="text-5xl md:text-6xl font-display text-stone-900 dark:text-stone-100 font-bold tracking-tighter">
                         <TextSplitReveal text="Experience." />
                    </h3>
               </div>
@@ -214,12 +253,19 @@ const Home = () => {
           </motion.div>
 
           {/* Achievements Section */}
-          <motion.div variants={containerVariants} id="achievements" className="max-w-7xl mx-auto px-4 sm:px-6 w-full mb-32">
-              <div className="mb-16">
-                   <h2 className="text-sm font-mono text-stone-500 uppercase tracking-widest mb-4">
+          <motion.div 
+            variants={sectionVariants} 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, margin: "-10%" }}
+            id="achievements" 
+            className="max-w-7xl mx-auto px-4 sm:px-6 w-full mb-28"
+          >
+              <div className="mb-14">
+                   <h2 className="text-sm font-mono text-stone-400 uppercase tracking-widest mb-3">
                         [ Milestones ]
                    </h2>
-                   <h3 className="text-4xl md:text-5xl font-display text-stone-900 dark:text-stone-100 font-medium tracking-tight">
+                   <h3 className="text-5xl md:text-6xl font-display text-stone-900 dark:text-stone-100 font-bold tracking-tighter">
                         <TextSplitReveal text="Achievements." />
                    </h3>
               </div>
@@ -248,14 +294,92 @@ const Home = () => {
               </div>
           </motion.div>
 
+          {/* Education Section */}
+          <motion.div 
+            variants={sectionVariants} 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, margin: "-10%" }}
+            className="max-w-7xl mx-auto px-4 sm:px-6 w-full mb-28"
+          >
+              <div className="mb-14">
+                   <h2 className="text-sm font-mono text-stone-400 uppercase tracking-widest mb-3">
+                        [ Academic Background ]
+                   </h2>
+                   <h3 className="text-5xl md:text-6xl font-display text-stone-900 dark:text-stone-100 font-bold tracking-tighter">
+                        <TextSplitReveal text="Education." />
+                   </h3>
+              </div>
+              
+              <div className="relative pl-8 md:pl-0 border-l md:border-l-0 border-stone-200 dark:border-stone-800 flex flex-col gap-12">
+                  <motion.div 
+                      initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+                      className="relative flex flex-col md:flex-row gap-4 md:gap-8 group"
+                  >
+                       <div className="md:hidden absolute -left-[37px] top-1.5 w-3 h-3 rounded-full bg-stone-200 dark:bg-stone-800 border-2 border-white dark:border-[#0a0a0a] group-hover:bg-amber-500 transition-colors"></div>
+                       <div className="w-full md:w-1/4 pt-1">
+                           <span className="text-xs md:text-sm font-mono text-stone-400 dark:text-stone-500 block mb-2 md:mb-0">2022 &mdash; 2026</span>
+                       </div>
+                       <div className="w-full md:w-3/4 md:border-b border-stone-200 dark:border-stone-800 pb-12 cursor-default">
+                           <h3 className="text-2xl font-display text-stone-900 dark:text-stone-100 group-hover:text-amber-500 transition-colors mb-2">B.Tech Computer Science & Engineering</h3>
+                           <p className="text-stone-500 dark:text-stone-400 font-mono text-xs uppercase tracking-[0.2em] mb-4">Lovely Professional University (LPU)</p>
+                           <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm group-hover:text-stone-900 dark:group-hover:text-stone-300 transition-colors max-w-2xl">
+                               Current CGPA: <span className="text-stone-900 dark:text-stone-100 font-mono font-medium">9.14</span>
+                           </p>
+                       </div>
+                  </motion.div>
+
+                  <motion.div 
+                      initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
+                      className="relative flex flex-col md:flex-row gap-4 md:gap-8 group"
+                  >
+                       <div className="md:hidden absolute -left-[37px] top-1.5 w-3 h-3 rounded-full bg-stone-200 dark:bg-stone-800 border-2 border-white dark:border-[#0a0a0a] group-hover:bg-amber-500 transition-colors"></div>
+                       <div className="w-full md:w-1/4 pt-1">
+                           <span className="text-xs md:text-sm font-mono text-stone-400 dark:text-stone-500 block mb-2 md:mb-0">2021 &mdash; 2022</span>
+                       </div>
+                       <div className="w-full md:w-3/4 md:border-b border-stone-200 dark:border-stone-800 pb-12 cursor-default">
+                           <h3 className="text-2xl font-display text-stone-900 dark:text-stone-100 group-hover:text-amber-500 transition-colors mb-2">Senior Secondary (Class XII)</h3>
+                           <p className="text-stone-500 dark:text-stone-400 font-mono text-xs uppercase tracking-[0.2em] mb-4">Kendriya Vidyalaya</p>
+                           <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm group-hover:text-stone-900 dark:group-hover:text-stone-300 transition-colors max-w-2xl">
+                               Score: <span className="text-stone-900 dark:text-stone-100 font-mono font-medium">89.8%</span>
+                           </p>
+                       </div>
+                  </motion.div>
+
+                  <motion.div 
+                      initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}
+                      className="relative flex flex-col md:flex-row gap-4 md:gap-8 group"
+                  >
+                       <div className="md:hidden absolute -left-[37px] top-1.5 w-3 h-3 rounded-full bg-stone-200 dark:bg-stone-800 border-2 border-white dark:border-[#0a0a0a] group-hover:bg-amber-500 transition-colors"></div>
+                       <div className="w-full md:w-1/4 pt-1">
+                           <span className="text-xs md:text-sm font-mono text-stone-400 dark:text-stone-500 block mb-2 md:mb-0">2019 &mdash; 2020</span>
+                       </div>
+                       <div className="w-full md:w-3/4 pb-12 cursor-default">
+                           <h3 className="text-2xl font-display text-stone-900 dark:text-stone-100 group-hover:text-amber-500 transition-colors mb-2">Secondary (Class X)</h3>
+                           <p className="text-stone-500 dark:text-stone-400 font-mono text-xs uppercase tracking-[0.2em] mb-4">Kendriya Vidyalaya</p>
+                           <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm group-hover:text-stone-900 dark:group-hover:text-stone-300 transition-colors max-w-2xl">
+                               Score: <span className="text-stone-900 dark:text-stone-100 font-mono font-medium">94.8%</span>
+                           </p>
+                       </div>
+                  </motion.div>
+              </div>
+          </motion.div>
+
           {/* Certifications Section */}
-          <motion.div variants={containerVariants} id="certifications" className="max-w-7xl mx-auto px-4 sm:px-6 w-full mb-32">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <motion.div 
+            variants={sectionVariants} 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, margin: "-10%" }}
+            id="certifications" 
+            className="max-w-7xl mx-auto px-4 sm:px-6 w-full mb-24"
+          >
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14">
                    <div>
-                        <h2 className="text-sm font-mono text-stone-500 uppercase tracking-widest mb-4">
+                        <h2 className="text-sm font-mono text-stone-400 uppercase tracking-widest mb-3">
                             [ Continuous Learning ]
                         </h2>
-                        <h3 className="text-4xl md:text-5xl lg:text-6xl font-display text-stone-900 dark:text-stone-100 font-medium tracking-tight">
+                        <h3 className="text-5xl md:text-6xl font-display text-stone-900 dark:text-stone-100 font-bold tracking-tighter">
                             <TextSplitReveal text="Certifications." />
                         </h3>
                    </div>
@@ -310,8 +434,8 @@ const Home = () => {
               <HolographicCTA />
           </section>
 
-          <footer id="contact-footer" className="mt-10 pt-10 border-t border-stone-200 dark:border-stone-800 text-center text-stone-400 text-sm flex flex-col items-center gap-4">
-             <div className="flex gap-6 mb-4">
+          <footer id="contact-footer" className="mt-4 pt-8 border-t border-stone-200 dark:border-stone-800 text-center text-stone-400 text-sm flex flex-col items-center gap-4">
+             <div className="flex flex-wrap justify-center gap-6 mb-2">
                 <Magnetic>
                     <a href="https://github.com/nitinvedi" target="_blank" rel="noreferrer" className="text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors">GitHub</a>
                 </Magnetic>
@@ -319,12 +443,16 @@ const Home = () => {
                     <a href="https://www.linkedin.com/in/nitinvedi" target="_blank" rel="noreferrer" className="text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors">LinkedIn</a>
                 </Magnetic>
                 <Magnetic>
-                    <button onClick={handleCopyEmail} className="text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 transition-colors cursor-pointer min-w-[80px]">
-                        {emailCopied ? <span className="text-emerald-500 font-bold">Copied!</span> : "Copy Email"}
-                    </button>
+                    <a
+                        href="https://drive.usercontent.google.com/download?id=1t7BVlFtCW3vBn4nzrnKf1OGMfpW1wu96&export=download&authuser=0"
+                        download
+                        className="text-stone-500 hover:text-amber-500 transition-colors font-medium"
+                    >
+                        ↓ Resume
+                    </a>
                 </Magnetic>
              </div>
-             
+
              <VisitorCounter />
 
              <p>© {new Date().getFullYear()} Nitin Chaturvedi. All rights reserved.</p>
